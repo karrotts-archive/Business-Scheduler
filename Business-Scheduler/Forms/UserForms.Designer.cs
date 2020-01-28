@@ -1,6 +1,6 @@
-﻿namespace Business_Scheduler
+﻿namespace Business_Scheduler.Forms
 {
-    partial class Form1
+    partial class UserForms
     {
         /// <summary>
         /// Required designer variable.
@@ -37,4 +37,3 @@
         #endregion
     }
 }
-
