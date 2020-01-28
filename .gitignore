@@ -1,5 +1,5 @@
 #IGNORE FOLDERS
-./Business-Scheduler/bin
-./Business-Scheduler/obj
-./packages
+Business-Scheduler/bin
+Business-Scheduler/obj
 .vs
+packages
