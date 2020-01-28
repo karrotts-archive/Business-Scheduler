@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 using System.Windows.Forms;
+using Business_Scheduler.Exceptions;
 
 namespace Business_Scheduler.Data
 {
@@ -44,17 +45,31 @@ namespace Business_Scheduler.Data
         /// <returns>Boolean</returns>
         public static bool LoginUser(string username, string password)
         {
-            List<string> user = QueryDatabase("SELECT * FROM user WHERE userName=\"" + username + "\"AND password=\"" + password + "\"");
-            if(user != null)
+            try
             {
-                //Set currently logged in user information for easy access
-                string[] userinfo = user[0].Split(' ');
-                userID = Int32.Parse(userinfo[0]);
-                username = userinfo[1];
+                List<string> user = QueryDatabase("SELECT * FROM user WHERE userName=\"" + username + "\"AND password=\"" + password + "\"");
+                if (user != null && user.Count == 1)
+                {
+                    //Set currently logged in user information for easy access
+                    string[] userinfo = user[0].Split(' ');
+                    userID = Int32.Parse(userinfo[0]);
+                    username = userinfo[1];
 
-                return true;
+                    return true;
+                }
+
+                throw new IncorrectLoginException();
             }
-            return false;
+            catch (IncorrectLoginException ex)
+            {
+                MessageBox.Show(ex.Message, "Incorrect Login!");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error!");
+                return false;
+            }
         }
 
         /// <summary>
@@ -71,23 +86,32 @@ namespace Business_Scheduler.Data
                 MySqlCommand command = new MySqlCommand(sql, connection);
                 MySqlDataReader reader = command.ExecuteReader();
 
+                string value = "";
                 List<string> values = new List<string>();
 
                 while(reader.Read())
                 {
                     for(int i = 0; i < reader.FieldCount; i++)
                     {
-                        values.Add(reader[i].ToString());
+                        if (reader[i].ToString() != null)
+                        {
+                            value += reader[i].ToString() + " ";
+                        }
                     }
-                    return values;
+                    values.Add(value);
                 }
+
+                reader.Close();
+                command.Dispose();
+                connection.Close();
+
+                return values;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString(), "Error!");
                 return null;
             }
-            return null;
         }
     }
 }
