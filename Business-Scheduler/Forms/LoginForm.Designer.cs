@@ -31,12 +31,12 @@
             this.Username_Box = new System.Windows.Forms.TextBox();
             this.Password_Box = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.Company_Label = new System.Windows.Forms.Label();
+            this.Login_Label = new System.Windows.Forms.Label();
             this.Login_Button = new System.Windows.Forms.Button();
             this.Error_Message = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.Username_Label = new System.Windows.Forms.Label();
+            this.Password_Label = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,34 +60,34 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.MediumPurple;
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.Company_Label);
+            this.panel1.Controls.Add(this.Login_Label);
             this.panel1.Location = new System.Drawing.Point(0, 1);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(378, 82);
             this.panel1.TabIndex = 2;
             // 
-            // label2
+            // Company_Label
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.SystemColors.Control;
-            this.label2.Location = new System.Drawing.Point(21, 10);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(170, 17);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Consultant Scheduling";
+            this.Company_Label.AutoSize = true;
+            this.Company_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Company_Label.ForeColor = System.Drawing.SystemColors.Control;
+            this.Company_Label.Location = new System.Drawing.Point(21, 10);
+            this.Company_Label.Name = "Company_Label";
+            this.Company_Label.Size = new System.Drawing.Size(170, 17);
+            this.Company_Label.TabIndex = 1;
+            this.Company_Label.Text = "Consultant Scheduling";
             // 
-            // label1
+            // Login_Label
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("MS Reference Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label1.Location = new System.Drawing.Point(10, 29);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(115, 42);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Login";
+            this.Login_Label.AutoSize = true;
+            this.Login_Label.Font = new System.Drawing.Font("MS Reference Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Login_Label.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.Login_Label.Location = new System.Drawing.Point(10, 29);
+            this.Login_Label.Name = "Login_Label";
+            this.Login_Label.Size = new System.Drawing.Size(111, 40);
+            this.Login_Label.TabIndex = 0;
+            this.Login_Label.Text = "Login";
             // 
             // Login_Button
             // 
@@ -110,31 +110,31 @@
             this.Error_Message.Size = new System.Drawing.Size(0, 17);
             this.Error_Message.TabIndex = 4;
             // 
-            // label4
+            // Username_Label
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(24, 117);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(73, 17);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Username";
+            this.Username_Label.AutoSize = true;
+            this.Username_Label.Location = new System.Drawing.Point(24, 117);
+            this.Username_Label.Name = "Username_Label";
+            this.Username_Label.Size = new System.Drawing.Size(73, 17);
+            this.Username_Label.TabIndex = 5;
+            this.Username_Label.Text = "Username";
             // 
-            // label5
+            // Password_Label
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(24, 195);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(69, 17);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "Password";
+            this.Password_Label.AutoSize = true;
+            this.Password_Label.Location = new System.Drawing.Point(24, 195);
+            this.Password_Label.Name = "Password_Label";
+            this.Password_Label.Size = new System.Drawing.Size(69, 17);
+            this.Password_Label.TabIndex = 6;
+            this.Password_Label.Text = "Password";
             // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(378, 350);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.Password_Label);
+            this.Controls.Add(this.Username_Label);
             this.Controls.Add(this.Error_Message);
             this.Controls.Add(this.Login_Button);
             this.Controls.Add(this.panel1);
@@ -157,12 +157,12 @@
         private System.Windows.Forms.TextBox Username_Box;
         private System.Windows.Forms.TextBox Password_Box;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label Login_Label;
         private System.Windows.Forms.Button Login_Button;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label Company_Label;
         private System.Windows.Forms.Label Error_Message;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label Username_Label;
+        private System.Windows.Forms.Label Password_Label;
     }
 }
 

@@ -37,6 +37,46 @@ namespace Business_Scheduler.Data
         }
 
         /// <summary>
+        /// Search for appointment by ID
+        /// </summary>
+        /// <param name="id">ID of appointment</param>
+        /// <returns></returns>
+        public static List<string> SearchForAppointment(int id)
+        {
+            return QueryDatabase("SELECT * FROM customer WHERE appointmentId = " + id);
+        }
+
+        public static void CreateNewCustomer(Customer customer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void CreateNewAppointment(Appointment appointment)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void UpdateCustomerInfo(Customer customer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void UpdateAppointmentInfo(Appointment appointment)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void DeleteCustomer(Customer customer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void DeleteAppointment(Appointment appointment)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Queries database to see if any user match the user/pass combo
         /// Sets the currently logged in user information if passes
         /// </summary>
@@ -54,6 +94,9 @@ namespace Business_Scheduler.Data
                     string[] userinfo = user[0].Split(' ');
                     userID = Int32.Parse(userinfo[0]);
                     username = userinfo[1];
+
+                    //Log user login to log file
+                    LogManager.Log(username + ":" + userID + " has logged in at " + DateTime.Now.ToString() + "\n");
 
                     return true;
                 }
@@ -111,6 +154,22 @@ namespace Business_Scheduler.Data
             {
                 MessageBox.Show(ex.ToString(), "Error!");
                 return null;
+            }
+        }
+
+        private static void Execute(string sql)
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            try
+            {
+                connection.Open();
+                MySqlCommand command = new MySqlCommand(sql, connection);
+                command.Dispose();
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error!");
             }
         }
     }

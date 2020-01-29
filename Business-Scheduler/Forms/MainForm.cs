@@ -16,5 +16,15 @@ namespace Business_Scheduler.Forms
         {
             InitializeComponent();
         }
+
+        private void NewCustomer_Button_Click(object sender, EventArgs e)
+        {
+            new UserForms().Show();
+        }
+
+        private void Close_Button_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
+        }
     }
 }
