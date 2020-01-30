@@ -8,14 +8,14 @@ namespace Business_Scheduler
 {
     class Customer
     {
-        private int customerID;
-        private string customerName;
-        private Address address;
-        private int active;
-        private DateTime createDate;
-        private string createdBy;
-        private DateTime lastUpdate;
-        private string lastUpdateBy;
+        public int CustomerID { get; set; }
+        public string CustomerName { get; set; }
+        public Address Address { get; set; }
+        public int Active { get; set; }
+        public DateTime CreateDate { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime LastUpdate { get; set; }
+        public string LastUpdateBy { get; set; }
         
         Customer(int customerID,
                  string customerName, 
@@ -26,32 +26,31 @@ namespace Business_Scheduler
                  DateTime lastUpdate,
                  string lastUpdateBy)
         {
-            this.customerID = customerID;
-            this.customerName = customerName;
-            this.address = address;
-            this.active = active;
-            this.createDate = createDate;
-            this.createdBy = createdBy;
-            this.lastUpdate = lastUpdate;
-            this.lastUpdateBy = lastUpdateBy;
+            CustomerID = customerID;
+            CustomerName = customerName;
+            Address = address;
+            Active = active;
+            CreateDate = createDate;
+            CreatedBy = createdBy;
+            LastUpdate = lastUpdate;
+            LastUpdateBy = lastUpdateBy;
         }
 
-        public int GetCustomerID() => customerID;
-        public string GetCustomerName() => customerName;
-        public Address GetCustomerAddress() => address;
-        public int GetCustomerActive() => active;
-        public DateTime GetCustomerCreateDate() => createDate;
-        public string GetCustomerCreatedBy() => createdBy;
-        public DateTime GetCustomerLastUpdate() => lastUpdate;
-        public string GetCustomerLastUpdateBy() => lastUpdateBy;
-
-        public void SetCustomerID(int id) => customerID = id;
-        public void SetCustomerName(string name) => customerName = name;
-        public void SetCustomerAddress(Address address) => this.address = address;
-        public void SetCustomerActive(int active) => this.active = active;
-        public void SetCustomerCreateDate(DateTime createDate) => this.createDate = createDate;
-        public void SetCustomerCreatedBy(string user) => createdBy = user;
-        public void SetCustomerLastUpdate(DateTime lastUpdate) => this.lastUpdate = lastUpdate;
-        public void SetCustomerLastUpdateBy(string user) => lastUpdateBy = user;
+        Customer(string customerName,
+                 Address address,
+                 int active,
+                 DateTime createDate,
+                 string createdBy,
+                 DateTime lastUpdate,
+                 string lastUpdateBy)
+        {
+            CustomerName = customerName;
+            Address = address;
+            Active = active;
+            CreateDate = createDate;
+            CreatedBy = createdBy;
+            LastUpdate = lastUpdate;
+            LastUpdateBy = lastUpdateBy;
+        }
     }
 }

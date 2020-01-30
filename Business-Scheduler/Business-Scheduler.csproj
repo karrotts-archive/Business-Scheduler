@@ -74,12 +74,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Address.cs" />
-    <Compile Include="Appointment.cs" />
-    <Compile Include="City.cs" />
+    <Compile Include="Data\Objects\Address.cs" />
+    <Compile Include="Data\Objects\Appointment.cs" />
+    <Compile Include="Data\Objects\City.cs" />
     <Compile Include="Controllers\TableController.cs" />
-    <Compile Include="Country.cs" />
-    <Compile Include="Customer.cs" />
+    <Compile Include="Data\Objects\Country.cs" />
+    <Compile Include="Data\Objects\Customer.cs" />
     <Compile Include="Data\DataManager.cs" />
     <Compile Include="Data\LogManager.cs" />
     <Compile Include="Exceptions\Exceptions.cs" />

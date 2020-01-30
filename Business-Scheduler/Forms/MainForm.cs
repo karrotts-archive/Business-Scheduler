@@ -26,5 +26,10 @@ namespace Business_Scheduler.Forms
         {
             Environment.Exit(0);
         }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Environment.Exit(0);
+        }
     }
 }

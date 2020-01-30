@@ -8,11 +8,39 @@ namespace Business_Scheduler
 {
     class Country
     {
-        //countryID
-        //country
-        //createDate
-        //createdBy
-        //lastUpdate
-        //lastUpdateBy
+        public int CountryID { get; set; }
+        public string CountryName { get; set; }
+        public DateTime CreateDate { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime LastUpdate { get; set; }
+        public string LastUpdatedBy { get; set; }
+
+        Country(int countryId,
+                string countryName,
+                DateTime createDate,
+                string createdBy,
+                DateTime lastUpdate,
+                string lastUpdateBy)
+        {
+            CountryID = countryId;
+            CountryName = countryName;
+            CreateDate = createDate;
+            CreatedBy = createdBy;
+            LastUpdate = lastUpdate;
+            LastUpdatedBy = lastUpdateBy;
+        }
+
+        Country(string countryName,
+        DateTime createDate,
+        string createdBy,
+        DateTime lastUpdate,
+        string lastUpdateBy)
+        {
+            CountryName = countryName;
+            CreateDate = createDate;
+            CreatedBy = createdBy;
+            LastUpdate = lastUpdate;
+            LastUpdatedBy = lastUpdateBy;
+        }
     }
 }

@@ -344,6 +344,7 @@
             this.MinimizeBox = false;
             this.Name = "MainForm";
             this.Text = "CSS - Main Screen";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
