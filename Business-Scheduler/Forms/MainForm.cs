@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Business_Scheduler.Data;
 
 namespace Business_Scheduler.Forms
 {
@@ -30,6 +31,11 @@ namespace Business_Scheduler.Forms
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Environment.Exit(0);
+        }
+
+        private void DeleteCustomer_Button_Click(object sender, EventArgs e)
+        {
+            new EditDeleteCustomerForm().Show();
         }
     }
 }

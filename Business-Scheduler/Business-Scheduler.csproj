@@ -90,6 +90,18 @@
     <Compile Include="Forms\AppointmentForm.Designer.cs">
       <DependentUpon>AppointmentForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\EditDeleteCustomerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditDeleteCustomerForm.Designer.cs">
+      <DependentUpon>EditDeleteCustomerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MultipleUsersForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MultipleUsersForm.Designer.cs">
+      <DependentUpon>MultipleUsersForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\UserForms.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,11 +128,17 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\EditDeleteCustomerForm.resx">
+      <DependentUpon>EditDeleteCustomerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MultipleUsersForm.resx">
+      <DependentUpon>MultipleUsersForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserForms.resx">
       <DependentUpon>UserForms.cs</DependentUpon>

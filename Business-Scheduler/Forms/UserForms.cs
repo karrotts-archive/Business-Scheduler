@@ -30,6 +30,7 @@ namespace Business_Scheduler.Forms
             PhoneNumber_Box.Enabled = val;
             Active_Radio.Enabled = val;
             Disabled_Radio.Enabled = val;
+            Create_Button.Enabled = val;
         }
 
         private void Create_Button_Click(object sender, EventArgs e)

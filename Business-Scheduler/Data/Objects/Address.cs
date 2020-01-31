@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Business_Scheduler
 {
-    class Address
+    public class Address
     {
         public int AddressID;
         public string AddressLineOne;

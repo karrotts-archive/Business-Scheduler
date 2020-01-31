@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Business_Scheduler
 {
-    class Country
+    public class Country
     {
         public int CountryID { get; set; }
         public string CountryName { get; set; }

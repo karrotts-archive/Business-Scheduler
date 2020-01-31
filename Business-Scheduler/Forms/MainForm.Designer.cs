@@ -52,7 +52,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.NewCustomer_Button = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.DeleteCustomer_Button = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.Close_Button = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
@@ -298,14 +298,15 @@
             this.button4.Text = "Update Customer Information";
             this.button4.UseVisualStyleBackColor = true;
             // 
-            // button5
+            // DeleteCustomer_Button
             // 
-            this.button5.Location = new System.Drawing.Point(20, 386);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(356, 48);
-            this.button5.TabIndex = 7;
-            this.button5.Text = "Delete Customer";
-            this.button5.UseVisualStyleBackColor = true;
+            this.DeleteCustomer_Button.Location = new System.Drawing.Point(20, 386);
+            this.DeleteCustomer_Button.Name = "DeleteCustomer_Button";
+            this.DeleteCustomer_Button.Size = new System.Drawing.Size(356, 48);
+            this.DeleteCustomer_Button.TabIndex = 7;
+            this.DeleteCustomer_Button.Text = "Delete Customer";
+            this.DeleteCustomer_Button.UseVisualStyleBackColor = true;
+            this.DeleteCustomer_Button.Click += new System.EventHandler(this.DeleteCustomer_Button_Click);
             // 
             // button6
             // 
@@ -333,7 +334,7 @@
             this.ClientSize = new System.Drawing.Size(1069, 658);
             this.Controls.Add(this.Close_Button);
             this.Controls.Add(this.button6);
-            this.Controls.Add(this.button5);
+            this.Controls.Add(this.DeleteCustomer_Button);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.NewCustomer_Button);
             this.Controls.Add(this.button2);
@@ -379,7 +380,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button NewCustomer_Button;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button DeleteCustomer_Button;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button Close_Button;
     }

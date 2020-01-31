@@ -7,6 +7,7 @@ using MySql.Data;
 using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 using Business_Scheduler.Exceptions;
+using Business_Scheduler.Forms;
 using System.Text.RegularExpressions;
 
 namespace Business_Scheduler.Data
@@ -29,9 +30,33 @@ namespace Business_Scheduler.Data
         /// </summary>
         /// <param name="name">Name of customer</param>
         /// <returns></returns>
-        public static List<string> SearchForCustomer(string name)
+        public static void SearchForCustomer(string name)
         {
-            return QueryDatabase("SELECT * FROM customer WHERE customerName LIKE " + name);
+            List<string[]> customerInfo = QueryDatabase($"SELECT * FROM customer WHERE customerName LIKE \'%{name}%\'");
+
+            //Check if the information is in the correct format and there is only one record
+            if (customerInfo.Count > 0 && customerInfo[0].Length == 9)
+            {
+                if(customerInfo.Count == 1)
+                {
+                    EditDeleteCustomerForm.Results = BuildCustomer(customerInfo[0]);
+                }
+                else
+                {
+                    List<Customer> customerList = new List<Customer>();
+                    for(int i = 0; i < customerInfo.Count; i++)
+                    {
+                        customerList.Add(BuildCustomer(customerInfo[i]));
+                    }
+
+                    new MultipleUsersForm(customerList).Show();
+                }
+            }
+            else
+            {
+                MessageBox.Show("No customers were found!", "Error!");
+                EditDeleteCustomerForm.Results = null;
+            }
         }
 
         /// <summary>
@@ -39,9 +64,22 @@ namespace Business_Scheduler.Data
         /// </summary>
         /// <param name="id">ID of customer</param>
         /// <returns></returns>
-        public static List<string> SearchForCustomer(int id)
+        public static void SearchForCustomer(int id)
         {
-            return QueryDatabase("SELECT * FROM customer WHERE customerId = " + id);
+            List<string[]> customerInfo = QueryDatabase("SELECT * FROM customer WHERE customerId = " + id);
+            EditDeleteCustomerForm.Results = BuildCustomer(customerInfo[0]);
+        }
+
+        private static Customer BuildCustomer(string[] customerInfo)
+        {
+            List<string[]> addressInfo = QueryDatabase($"SELECT * FROM address WHERE addressId = {customerInfo[2]}");
+            List<string[]> cityInfo = QueryDatabase($"SELECT * FROM city WHERE cityId = {addressInfo[0][3]}");
+            List<string[]> countryInfo = QueryDatabase($"SELECT * FROM country WHERE countryId = {cityInfo[0][2]}");
+            Country country = new Country(Int32.Parse(countryInfo[0][0]), countryInfo[0][1], Convert.ToDateTime(countryInfo[0][2]), countryInfo[0][3], Convert.ToDateTime(countryInfo[0][4]), countryInfo[0][5]);
+            City city = new City(Int32.Parse(cityInfo[0][0]), cityInfo[0][1], country, Convert.ToDateTime(cityInfo[0][3]), cityInfo[0][4], Convert.ToDateTime(cityInfo[0][5]), cityInfo[0][6]);
+            Address address = new Address(Int32.Parse(addressInfo[0][0]), addressInfo[0][1], addressInfo[0][2], addressInfo[0][4], city, addressInfo[0][5], Convert.ToDateTime(addressInfo[0][6]), addressInfo[0][7], Convert.ToDateTime(addressInfo[0][8]), addressInfo[0][9]);
+            Customer customer = new Customer(Int32.Parse(customerInfo[0]), customerInfo[1], address, bool.Parse(customerInfo[3]) ? 1 : 0, Convert.ToDateTime(customerInfo[4]), customerInfo[5], Convert.ToDateTime(customerInfo[6]), customerInfo[7]);
+            return customer;
         }
 
         /// <summary>
@@ -51,7 +89,7 @@ namespace Business_Scheduler.Data
         /// <returns></returns>
         public static List<string> SearchForAppointment(int id)
         {
-            return QueryDatabase("SELECT * FROM customer WHERE appointmentId = " + id);
+            return null; //QueryDatabase("SELECT * FROM customer WHERE appointmentId = " + id);
         }
 
         /// <summary>
@@ -69,7 +107,7 @@ namespace Business_Scheduler.Data
                         $"'{ConvertDateTime(customer.Address.City.Country.LastUpdate)}'," +
                         $"\"{customer.Address.City.Country.LastUpdatedBy}\")");
 
-                int countryID = Int32.Parse(QueryDatabase($"SELECT countryId FROM country WHERE createDate = '{ConvertDateTime(customer.Address.City.Country.CreateDate)}'")[0]);
+                int countryID = Int32.Parse(QueryDatabase($"SELECT countryId FROM country WHERE createDate = '{ConvertDateTime(customer.Address.City.Country.CreateDate)}'")[0][0]);
                 customer.Address.City.Country.CountryID = countryID;
 
                 Execute($"INSERT INTO city (city, countryId, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (" +
@@ -80,7 +118,7 @@ namespace Business_Scheduler.Data
                         $"'{ConvertDateTime(customer.Address.City.LastUpdate)}'," +
                         $"\"{customer.Address.City.LastUpdateBy}\")");
 
-                int cityID = Int32.Parse(QueryDatabase($"SELECT cityId FROM city WHERE createDate = '{ConvertDateTime(customer.Address.City.CreateDate)}'")[0]);
+                int cityID = Int32.Parse(QueryDatabase($"SELECT cityId FROM city WHERE createDate = '{ConvertDateTime(customer.Address.City.CreateDate)}'")[0][0]);
                 customer.Address.City.CityID = cityID;
 
                 Execute($"INSERT INTO address (address, address2, cityId, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (" +
@@ -94,7 +132,7 @@ namespace Business_Scheduler.Data
                         $"'{ConvertDateTime(customer.Address.LastUpdate)}'," +
                         $"\"{customer.Address.LastUpdateBy}\")");
 
-                int addressID = Int32.Parse(QueryDatabase($"SELECT addressId FROM address WHERE createDate = '{ConvertDateTime(customer.Address.CreateDate)}'")[0]);
+                int addressID = Int32.Parse(QueryDatabase($"SELECT addressId FROM address WHERE createDate = '{ConvertDateTime(customer.Address.CreateDate)}'")[0][0]);
                 customer.Address.AddressID = addressID;
 
                 Execute($"INSERT INTO customer (customerName, addressId, active, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (" +
@@ -131,7 +169,20 @@ namespace Business_Scheduler.Data
 
         public static void DeleteCustomer(Customer customer)
         {
-            throw new NotImplementedException();
+            var verify = MessageBox.Show("Are you sure you want to delete this customer?", "Notice", MessageBoxButtons.YesNo);
+            if(verify == DialogResult.Yes)
+            {
+                Execute($"DELETE FROM customer WHERE customerId = {customer.CustomerID}"); 
+            }
+        }
+
+        public static void DeleteCustomer(int customerId)
+        {
+            var verify = MessageBox.Show("Are you sure you want to delete this customer?", "Notice", MessageBoxButtons.YesNo);
+            if (verify == DialogResult.Yes)
+            {
+                Execute($"DELETE FROM customer WHERE customerId = {customerId}");
+            }
         }
 
         public static void DeleteAppointment(Appointment appointment)
@@ -150,13 +201,12 @@ namespace Business_Scheduler.Data
         {
             try
             {
-                List<string> user = QueryDatabase("SELECT * FROM user WHERE userName=\"" + username + "\"AND password=\"" + password + "\"");
+                List<string[]> user = QueryDatabase("SELECT * FROM user WHERE userName=\"" + username + "\"AND password=\"" + password + "\"");
                 if (user != null && user.Count == 1)
                 {
                     //Set currently logged in user information for easy access
-                    string[] userinfo = user[0].Split(' ');
-                    UserID = Int32.Parse(userinfo[0]);
-                    Username = userinfo[1];
+                    UserID = Int32.Parse(user[0][0]);
+                    Username = user[0][1];
 
                     //Log user login to log file
                     LogManager.Log(Username + ":" + UserID + " has logged in at " + DateTime.Now.ToString() + "\n");
@@ -183,7 +233,7 @@ namespace Business_Scheduler.Data
         /// </summary>
         /// <param name="sql"></param>
         /// <returns>String List</returns>
-        private static List<string> QueryDatabase(string sql)
+        private static List<string[]> QueryDatabase(string sql)
         {
             MySqlConnection connection = new MySqlConnection(ConnectionString);
             try
@@ -193,18 +243,20 @@ namespace Business_Scheduler.Data
                 MySqlDataReader reader = command.ExecuteReader();
 
                 string value = "";
-                List<string> values = new List<string>();
+                List<string[]> values = new List<string[]>();
 
                 while(reader.Read())
                 {
+                    value = "";
                     for(int i = 0; i < reader.FieldCount; i++)
                     {
                         if (reader[i].ToString() != null)
                         {
-                            value += reader[i].ToString() + " ";
+                            value += reader[i].ToString() + "~";
                         }
                     }
-                    values.Add(value);
+                    string[] split = value.Split('~');
+                    values.Add(split);
                 }
 
                 reader.Close();
