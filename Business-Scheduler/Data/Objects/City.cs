@@ -16,7 +16,7 @@ namespace Business_Scheduler
         public DateTime LastUpdate { get; set; }
         public string LastUpdateBy { get; set; }
 
-        City(int cityId,
+        public City(int cityId,
              string cityName,
              Country country,
              DateTime createDate,
@@ -33,7 +33,7 @@ namespace Business_Scheduler
             LastUpdateBy = lastUpdateBy;
         }
 
-        City(string cityName,
+        public City(string cityName,
              Country country,
              DateTime createDate,
              string createdBy,

@@ -74,6 +74,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\CalendarManager.cs" />
     <Compile Include="Data\Objects\Address.cs" />
     <Compile Include="Data\Objects\Appointment.cs" />
     <Compile Include="Data\Objects\City.cs" />

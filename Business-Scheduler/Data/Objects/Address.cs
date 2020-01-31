@@ -11,18 +11,20 @@ namespace Business_Scheduler
         public int AddressID;
         public string AddressLineOne;
         public string AddressLineTwo;
-        public int PostalCode;
+        public string PostalCode;
+        public string Phone;
         public City City;
         public DateTime CreateDate;
-        public string CreatedBy;
         public DateTime LastUpdate;
         public string LastUpdateBy;
+        public string CreatedBy;
 
-        Address(int addressId,
+        public Address(int addressId,
                 string address1,
                 string address2,
-                int postalCode,
+                string postalCode,
                 City city,
+                string phone,
                 DateTime createDate,
                 string createdBy,
                 DateTime lastUpdate,
@@ -33,15 +35,18 @@ namespace Business_Scheduler
             AddressLineTwo = address2;
             PostalCode = postalCode;
             City = city;
+            Phone = phone;
             CreateDate = createDate;
+            CreatedBy = createdBy;
             LastUpdate = lastUpdate;
             LastUpdateBy = lastUpdateBy;
         }
 
-        Address(string address1,
+        public Address(string address1,
         string address2,
-        int postalCode,
+        string postalCode,
         City city,
+        string phone,
         DateTime createDate,
         string createdBy,
         DateTime lastUpdate,
@@ -51,6 +56,8 @@ namespace Business_Scheduler
             AddressLineTwo = address2;
             PostalCode = postalCode;
             City = city;
+            Phone = phone;
+            CreatedBy = createdBy;
             CreateDate = createDate;
             LastUpdate = lastUpdate;
             LastUpdateBy = lastUpdateBy;

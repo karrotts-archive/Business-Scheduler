@@ -17,7 +17,7 @@ namespace Business_Scheduler
         public DateTime LastUpdate { get; set; }
         public string LastUpdateBy { get; set; }
         
-        Customer(int customerID,
+        public Customer(int customerID,
                  string customerName, 
                  Address address,
                  int active,
@@ -36,7 +36,7 @@ namespace Business_Scheduler
             LastUpdateBy = lastUpdateBy;
         }
 
-        Customer(string customerName,
+        public Customer(string customerName,
                  Address address,
                  int active,
                  DateTime createDate,

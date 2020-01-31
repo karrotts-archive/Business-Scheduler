@@ -21,6 +21,9 @@ namespace Business_Scheduler.Forms
 
         private void Login_Button_Click(object sender, EventArgs e)
         {
+            Username_Box.Enabled = false;
+            Password_Box.Enabled = false;
+            Login_Button.Enabled = false;
             if(DataManager.LoginUser(Username_Box.Text, Password_Box.Text))
             {
                 new MainForm().Show();
@@ -29,6 +32,9 @@ namespace Business_Scheduler.Forms
             else
             {
                 Error_Message.Text = Properties.strings.Invalid_Credentials;
+                Username_Box.Enabled = true;
+                Password_Box.Enabled = true;
+                Login_Button.Enabled = true;
             }
         }
     }

@@ -15,7 +15,7 @@ namespace Business_Scheduler
         public DateTime LastUpdate { get; set; }
         public string LastUpdatedBy { get; set; }
 
-        Country(int countryId,
+        public Country(int countryId,
                 string countryName,
                 DateTime createDate,
                 string createdBy,
@@ -30,7 +30,7 @@ namespace Business_Scheduler
             LastUpdatedBy = lastUpdateBy;
         }
 
-        Country(string countryName,
+        public Country(string countryName,
         DateTime createDate,
         string createdBy,
         DateTime lastUpdate,
