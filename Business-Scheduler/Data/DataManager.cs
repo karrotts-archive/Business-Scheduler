@@ -22,7 +22,7 @@ namespace Business_Scheduler.Data
         //Lambda expression to convert DataTime into valid input for MySQL
         public static string ConvertDateTime(DateTime dt) => dt.ToString("yyyy-MM-dd HH:mm:ss");
 
-        //
+        //Lambda expression to check if phone number is in the correct format
         public static bool CheckValidPhoneNumber(string number) => Regex.Match(number, @"^[1-9]\d{2}-\d{3}-\d{4}$").Success;
 
         /// <summary>
@@ -30,8 +30,9 @@ namespace Business_Scheduler.Data
         /// </summary>
         /// <param name="name">Name of customer</param>
         /// <returns></returns>
-        public static void SearchForCustomer(string name)
+        public static List<Customer> SearchForCustomer(string name)
         {
+            List<Customer> customers = new List<Customer>();
             List<string[]> customerInfo = QueryDatabase($"SELECT * FROM customer WHERE customerName LIKE \'%{name}%\'");
 
             //Check if the information is in the correct format and there is only one record
@@ -39,23 +40,22 @@ namespace Business_Scheduler.Data
             {
                 if(customerInfo.Count == 1)
                 {
-                    EditDeleteCustomerForm.Results = BuildCustomer(customerInfo[0]);
+                     customers.Add(BuildCustomer(customerInfo[0]));
+                    return customers;
                 }
                 else
                 {
-                    List<Customer> customerList = new List<Customer>();
                     for(int i = 0; i < customerInfo.Count; i++)
                     {
-                        customerList.Add(BuildCustomer(customerInfo[i]));
+                        customers.Add(BuildCustomer(customerInfo[i]));
                     }
-
-                    new MultipleUsersForm(customerList).Show();
+                    return customers;
                 }
             }
             else
             {
                 MessageBox.Show("No customers were found!", "Error!");
-                EditDeleteCustomerForm.Results = null;
+                return null;
             }
         }
 
@@ -64,10 +64,20 @@ namespace Business_Scheduler.Data
         /// </summary>
         /// <param name="id">ID of customer</param>
         /// <returns></returns>
-        public static void SearchForCustomer(int id)
+        public static List<Customer> SearchForCustomer(int id)
         {
+            List<Customer> customer = new List<Customer>();
             List<string[]> customerInfo = QueryDatabase("SELECT * FROM customer WHERE customerId = " + id);
-            EditDeleteCustomerForm.Results = BuildCustomer(customerInfo[0]);
+            if (customerInfo.Count == 1 && customerInfo[0].Length == 9)
+            {
+                customer.Add(BuildCustomer(customerInfo[0])); ;
+                return customer;
+            }
+            else
+            {
+                MessageBox.Show("No customers were found!", "Error!");
+                return null;
+            }
         }
 
         private static Customer BuildCustomer(string[] customerInfo)
