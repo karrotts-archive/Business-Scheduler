@@ -12,6 +12,7 @@ namespace Business_Scheduler.Forms
         {
             InitializeComponent();
             Thread.CurrentThread.CurrentUICulture = CultureInfo.CurrentUICulture;
+            //Thread.CurrentThread.CurrentUICulture = new CultureInfo("FR-fr");
             Company_Label.Text = Properties.strings.Company_Name;
             Login_Label.Text = Properties.strings.Login;
             Username_Label.Text = Properties.strings.Username;

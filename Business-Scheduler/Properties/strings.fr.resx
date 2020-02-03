@@ -118,18 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Company_Name" xml:space="preserve">
-    <value>test</value>
+    <value>Planificateur de planification</value>
   </data>
   <data name="Invalid_Credentials" xml:space="preserve">
-    <value>test</value>
+    <value>Les informations d'identification n'ont pas pu être vérifiées!</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>test</value>
+    <value>Le login</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>test</value>
+    <value>Mot de passe</value>
   </data>
   <data name="Username" xml:space="preserve">
-    <value>test</value>
+    <value>Nom d'utilisateur</value>
   </data>
 </root>
