@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace Business_Scheduler.Forms
 {
-    public partial class AppointmentForm : Form
+    public partial class EditDeleteAppointmentForm : Form
     {
-        public AppointmentForm()
+        public EditDeleteAppointmentForm()
         {
             InitializeComponent();
         }
 
-        private void Label2_Click(object sender, EventArgs e)
+        private void Label5_Click(object sender, EventArgs e)
         {
 
         }

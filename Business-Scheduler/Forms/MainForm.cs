@@ -20,7 +20,7 @@ namespace Business_Scheduler.Forms
 
         private void NewCustomer_Button_Click(object sender, EventArgs e)
         {
-            new UserForms().Show();
+            new UserForm().Show();
         }
 
         private void Close_Button_Click(object sender, EventArgs e)

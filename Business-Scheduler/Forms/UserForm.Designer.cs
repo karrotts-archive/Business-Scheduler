@@ -1,6 +1,6 @@
 ﻿namespace Business_Scheduler.Forms
 {
-    partial class UserForms
+    partial class UserForm
     {
         /// <summary>
         /// Required designer variable.

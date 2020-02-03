@@ -12,9 +12,9 @@ using Business_Scheduler.Exceptions;
 
 namespace Business_Scheduler.Forms
 {
-    public partial class UserForms : Form
+    public partial class UserForm : Form
     {
-        public UserForms()
+        public UserForm()
         {
             InitializeComponent();
         }
