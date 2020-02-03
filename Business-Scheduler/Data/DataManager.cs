@@ -212,6 +212,7 @@ namespace Business_Scheduler.Data
             {
                 try
                 {
+                    Execute($"DELETE FROM appointment WHERE customerId = {customer.CustomerID}");
                     Execute($"DELETE FROM customer WHERE customerId = {customer.CustomerID}");
                     MessageBox.Show("Customer successfully deleted!");
                     return true;
@@ -238,6 +239,7 @@ namespace Business_Scheduler.Data
             {
                 try
                 {
+                    Execute($"DELETE FROM appointment WHERE customerId = {customerId}");
                     Execute($"DELETE FROM customer WHERE customerId = {customerId}");
                     MessageBox.Show("Customer successfully deleted!");
                     return true;
@@ -259,24 +261,100 @@ namespace Business_Scheduler.Data
         /// </summary>
         /// <param name="id">ID of appointment</param>
         /// <returns></returns>
-        public static List<string> SearchForAppointment(int id)
+        public static Appointment SearchForAppointment(int id)
         {
             return null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="appointment"></param>
         public static void CreateNewAppointment(Appointment appointment)
         {
-            throw new NotImplementedException();
+            //Appointment should be fully validated when passed into data manager
+            try
+            {
+                Execute($"INSERT INTO appointment (customerId, userId, title, description, location, contact, type, url, start, end, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (" +
+                    $"'{appointment.CustomerID}'," +
+                    $"'{appointment.UserID}'," +
+                    $"'{appointment.Title}'," +
+                    $"'{appointment.Description}'," +
+                    $"'{appointment.Location}'," +
+                    $"'{appointment.Contact}'," +
+                    $"'{appointment.Type}'," +
+                    $"'{appointment.URL}'," +
+                    $"'{ConvertDateTime(appointment.Start)}'," +
+                    $"'{ConvertDateTime(appointment.End)}'," +
+                    $"'{ConvertDateTime(appointment.CreateDate)}'," +
+                    $"'{appointment.CreatedBy}'," +
+                    $"'{ConvertDateTime(appointment.LastUpdate)}'," +
+                    $"'{appointment.LastUpdateBy}')");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error!");
+            }
         }
 
-        public static void UpdateAppointmentInfo(Appointment appointment)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="appointment"></param>
+        /// <returns></returns>
+        public static bool UpdateAppointmentInfo(Appointment appointment)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Execute($"UPDATE appointment SET " +
+                        $"customerId = '{appointment.CustomerID}'," +
+                        $" userId = '{appointment.UserID}'," +
+                        $" title = '{appointment.Title}'," +
+                        $" description = '{appointment.Description}'," +
+                        $" location = '{appointment.Location}'," +
+                        $" contact = '{appointment.Contact}'," +
+                        $" type = '{appointment.Type}'," +
+                        $" url = '{appointment.URL}'," +
+                        $" start = '{ConvertDateTime(appointment.Start)}'," +
+                        $" end = '{ConvertDateTime(appointment.End)}'," +
+                        $" createDate = '{ConvertDateTime(appointment.CreateDate)}'," +
+                        $" createdBy = '{appointment.CreatedBy}'," +
+                        $" lastUpdate = '{ConvertDateTime(DateTime.Now)}'," +
+                        $" lastUpdateBy = '{appointment.LastUpdateBy}'" +
+                        $" WHERE appointmentId = {appointment.AppointmentID}");
+                return true; //Update success!
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error!");
+                return false;
+            }
         }
 
-        public static void DeleteAppointment(Appointment appointment)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="appointment"></param>
+        /// <returns></returns>
+        public static bool DeleteAppointment(Appointment appointment)
         {
-            throw new NotImplementedException();
+            var verify = MessageBox.Show("Are you sure you want to delete this appointment?", "Notice", MessageBoxButtons.YesNo);
+            if (verify == DialogResult.Yes)
+            {
+                try
+                {
+                    Execute($"DELETE FROM appointment WHERE appointmentId = {appointment.AppointmentID}");
+                    MessageBox.Show("Appointment successfully deleted!");
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error!");
+                    return false;
+                }
+            }
+            MessageBox.Show("Appointment was not deleted!");
+            return false;
         }
         #endregion
 

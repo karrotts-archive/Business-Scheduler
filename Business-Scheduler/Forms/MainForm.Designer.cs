@@ -48,7 +48,7 @@
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.button1 = new System.Windows.Forms.Button();
+            this.NewAppointment_Button = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.NewCustomer_Button = new System.Windows.Forms.Button();
             this.UpdateCustomer_Button = new System.Windows.Forms.Button();
@@ -261,14 +261,15 @@
             this.dataGridViewTextBoxColumn5.ReadOnly = true;
             this.dataGridViewTextBoxColumn5.Width = 125;
             // 
-            // button1
+            // NewAppointment_Button
             // 
-            this.button1.Location = new System.Drawing.Point(20, 84);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(356, 48);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "New Appointment";
-            this.button1.UseVisualStyleBackColor = true;
+            this.NewAppointment_Button.Location = new System.Drawing.Point(20, 84);
+            this.NewAppointment_Button.Name = "NewAppointment_Button";
+            this.NewAppointment_Button.Size = new System.Drawing.Size(356, 48);
+            this.NewAppointment_Button.TabIndex = 3;
+            this.NewAppointment_Button.Text = "New Appointment";
+            this.NewAppointment_Button.UseVisualStyleBackColor = true;
+            this.NewAppointment_Button.Click += new System.EventHandler(this.NewAppointment_Button_Click);
             // 
             // button2
             // 
@@ -339,7 +340,7 @@
             this.Controls.Add(this.UpdateCustomer_Button);
             this.Controls.Add(this.NewCustomer_Button);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.NewAppointment_Button);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.MaximizeBox = false;
@@ -377,7 +378,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button NewAppointment_Button;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button NewCustomer_Button;
         private System.Windows.Forms.Button UpdateCustomer_Button;

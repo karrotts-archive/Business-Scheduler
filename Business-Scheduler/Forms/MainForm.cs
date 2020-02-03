@@ -42,5 +42,10 @@ namespace Business_Scheduler.Forms
         {
             new EditDeleteCustomerForm().Show();
         }
+
+        private void NewAppointment_Button_Click(object sender, EventArgs e)
+        {
+            new AppointmentForm().Show();
+        }
     }
 }
