@@ -25,6 +25,7 @@ namespace Business_Scheduler.Data
         //Lambda expression to check if phone number is in the correct format
         public static bool CheckValidPhoneNumber(string number) => Regex.Match(number, @"^[1-9]\d{2}-\d{3}-\d{4}$").Success;
 
+        #region Customer
         /// <summary>
         /// Search customer by name
         /// </summary>
@@ -35,16 +36,18 @@ namespace Business_Scheduler.Data
             List<Customer> customers = new List<Customer>();
             List<string[]> customerInfo = QueryDatabase($"SELECT * FROM customer WHERE customerName LIKE \'%{name}%\'");
 
-            //Check if the information is in the correct format and there is only one record
+            //Check if the information is in the correct format and there is more than one record
             if (customerInfo.Count > 0 && customerInfo[0].Length == 9)
             {
                 if(customerInfo.Count == 1)
                 {
+                    //Build customer and return single element list
                      customers.Add(BuildCustomer(customerInfo[0]));
                     return customers;
                 }
                 else
                 {
+                    //Build all customers and return all customers that match the search
                     for(int i = 0; i < customerInfo.Count; i++)
                     {
                         customers.Add(BuildCustomer(customerInfo[i]));
@@ -80,28 +83,6 @@ namespace Business_Scheduler.Data
             }
         }
 
-        private static Customer BuildCustomer(string[] customerInfo)
-        {
-            List<string[]> addressInfo = QueryDatabase($"SELECT * FROM address WHERE addressId = {customerInfo[2]}");
-            List<string[]> cityInfo = QueryDatabase($"SELECT * FROM city WHERE cityId = {addressInfo[0][3]}");
-            List<string[]> countryInfo = QueryDatabase($"SELECT * FROM country WHERE countryId = {cityInfo[0][2]}");
-            Country country = new Country(Int32.Parse(countryInfo[0][0]), countryInfo[0][1], Convert.ToDateTime(countryInfo[0][2]), countryInfo[0][3], Convert.ToDateTime(countryInfo[0][4]), countryInfo[0][5]);
-            City city = new City(Int32.Parse(cityInfo[0][0]), cityInfo[0][1], country, Convert.ToDateTime(cityInfo[0][3]), cityInfo[0][4], Convert.ToDateTime(cityInfo[0][5]), cityInfo[0][6]);
-            Address address = new Address(Int32.Parse(addressInfo[0][0]), addressInfo[0][1], addressInfo[0][2], addressInfo[0][4], city, addressInfo[0][5], Convert.ToDateTime(addressInfo[0][6]), addressInfo[0][7], Convert.ToDateTime(addressInfo[0][8]), addressInfo[0][9]);
-            Customer customer = new Customer(Int32.Parse(customerInfo[0]), customerInfo[1], address, bool.Parse(customerInfo[3]) ? 1 : 0, Convert.ToDateTime(customerInfo[4]), customerInfo[5], Convert.ToDateTime(customerInfo[6]), customerInfo[7]);
-            return customer;
-        }
-
-        /// <summary>
-        /// Search for appointment by ID
-        /// </summary>
-        /// <param name="id">ID of appointment</param>
-        /// <returns></returns>
-        public static List<string> SearchForAppointment(int id)
-        {
-            return null; //QueryDatabase("SELECT * FROM customer WHERE appointmentId = " + id);
-        }
-
         /// <summary>
         /// Creates a new customer an object with the customer object
         /// </summary>
@@ -110,6 +91,8 @@ namespace Business_Scheduler.Data
         {
             try
             {
+                //Reverse build customers to generate a new id for each customer table element
+                //Build country entry
                 Execute($"INSERT INTO country (country, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (" +
                         $"\"{customer.Address.City.Country.CountryName}\"," +
                         $"'{ConvertDateTime(customer.Address.City.Country.CreateDate)}'," +
@@ -117,9 +100,11 @@ namespace Business_Scheduler.Data
                         $"'{ConvertDateTime(customer.Address.City.Country.LastUpdate)}'," +
                         $"\"{customer.Address.City.Country.LastUpdatedBy}\")");
 
+                //Update customer object with new countryID
                 int countryID = Int32.Parse(QueryDatabase($"SELECT countryId FROM country WHERE createDate = '{ConvertDateTime(customer.Address.City.Country.CreateDate)}'")[0][0]);
                 customer.Address.City.Country.CountryID = countryID;
 
+                //Build new city entry
                 Execute($"INSERT INTO city (city, countryId, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (" +
                         $"\"{customer.Address.City.CityName}\"," +
                         $"{customer.Address.City.Country.CountryID}," +
@@ -128,9 +113,11 @@ namespace Business_Scheduler.Data
                         $"'{ConvertDateTime(customer.Address.City.LastUpdate)}'," +
                         $"\"{customer.Address.City.LastUpdateBy}\")");
 
+                //Update customer object with new cityID
                 int cityID = Int32.Parse(QueryDatabase($"SELECT cityId FROM city WHERE createDate = '{ConvertDateTime(customer.Address.City.CreateDate)}'")[0][0]);
                 customer.Address.City.CityID = cityID;
 
+                //Build new address entry
                 Execute($"INSERT INTO address (address, address2, cityId, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (" +
                         $"\"{customer.Address.AddressLineOne}\"," +
                         $"\"{customer.Address.AddressLineTwo}\"," +
@@ -142,9 +129,11 @@ namespace Business_Scheduler.Data
                         $"'{ConvertDateTime(customer.Address.LastUpdate)}'," +
                         $"\"{customer.Address.LastUpdateBy}\")");
 
+                //Update customer object with new addressID
                 int addressID = Int32.Parse(QueryDatabase($"SELECT addressId FROM address WHERE createDate = '{ConvertDateTime(customer.Address.CreateDate)}'")[0][0]);
                 customer.Address.AddressID = addressID;
 
+                //Build the entire customer with forign keys
                 Execute($"INSERT INTO customer (customerName, addressId, active, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (" +
                         $"\"{customer.CustomerName}\"," +
                         $"{customer.Address.AddressID}," +
@@ -162,12 +151,120 @@ namespace Business_Scheduler.Data
             }
         }
 
-        public static void CreateNewAppointment(Appointment appointment)
+        /// <summary>
+        /// Updates customer information
+        /// </summary>
+        /// <param name="customer"></param>
+        public static bool UpdateCustomerInfo(Customer customer)
         {
-            throw new NotImplementedException();
+            try
+            {
+                //Update customer table
+                Execute($"UPDATE customer SET " +
+                        $"customerName = '{customer.CustomerName}'," +
+                        $" active = '{customer.Active}'," +
+                        $" lastUpdate = '{ConvertDateTime(DateTime.Now)}'," +
+                        $" lastUpdateBy = '{Username}'" +
+                        $" WHERE customerId = '{customer.CustomerID}'");
+
+                //Update address table
+                Execute($"UPDATE address SET " +
+                        $"address = '{customer.Address.AddressLineOne}'," +
+                        $" address2 = '{customer.Address.AddressLineTwo}'," +
+                        $" postalCode = '{customer.Address.PostalCode}'," +
+                        $" phone = '{customer.Address.Phone}'," +
+                        $" lastUpdate = '{ConvertDateTime(DateTime.Now)}'," +
+                        $" lastUpdateBy = '{Username}'" +
+                        $" WHERE addressId = '{customer.Address.AddressID}'");
+
+                //Update city table
+                Execute($"UPDATE city SET " +
+                        $"city = '{customer.Address.City.CityName}'," +
+                        $"lastUpdate = '{ConvertDateTime(DateTime.Now)}'," +
+                        $"lastUpdateBy = '{Username}'" +
+                        $" WHERE cityId = '{customer.Address.City.CityID}'");
+
+                //Update country table
+                Execute($"UPDATE country SET " +
+                        $"country = '{customer.Address.City.Country.CountryName}'," +
+                        $"lastUpdate = '{ConvertDateTime(DateTime.Now)}'," +
+                        $"lastUpdateBy = '{Username}'" +
+                        $" WHERE countryId = '{customer.Address.City.Country.CountryID}'");
+
+                return true; //Update success!
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error!");
+                return false;
+            }
         }
 
-        public static void UpdateCustomerInfo(Customer customer)
+        /// <summary>
+        /// Deletes customer from database
+        /// </summary>
+        /// <param name="customer">Customer object</param>
+        /// <returns>True if customer is deleted</returns>
+        public static bool DeleteCustomer(Customer customer)
+        {
+            var verify = MessageBox.Show("Are you sure you want to delete this customer?", "Notice", MessageBoxButtons.YesNo);
+            if(verify == DialogResult.Yes)
+            {
+                try
+                {
+                    Execute($"DELETE FROM customer WHERE customerId = {customer.CustomerID}");
+                    MessageBox.Show("Customer successfully deleted!");
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error!");
+                    return false;
+                }
+            }
+            MessageBox.Show("Customer was not deleted!");
+            return false;
+        }
+
+        /// <summary>
+        /// Deletes customer from database
+        /// </summary>
+        /// <param name="customerId">Customers integer ID number</param>
+        /// <returns>True if successfully deleted</returns>
+        public static bool DeleteCustomer(int customerId)
+        {
+            var verify = MessageBox.Show("Are you sure you want to delete this customer?", "Notice", MessageBoxButtons.YesNo);
+            if (verify == DialogResult.Yes)
+            {
+                try
+                {
+                    Execute($"DELETE FROM customer WHERE customerId = {customerId}");
+                    MessageBox.Show("Customer successfully deleted!");
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error!");
+                    return false;
+                }
+            }
+            MessageBox.Show("Customer was not deleted!");
+            return false;
+        }
+        #endregion
+
+        #region Appointments
+        /// <summary>
+        /// Search for appointment by ID
+        /// </summary>
+        /// <param name="id">ID of appointment</param>
+        /// <returns></returns>
+        public static List<string> SearchForAppointment(int id)
+        {
+            return null;
+        }
+
+        public static void CreateNewAppointment(Appointment appointment)
         {
             throw new NotImplementedException();
         }
@@ -177,28 +274,11 @@ namespace Business_Scheduler.Data
             throw new NotImplementedException();
         }
 
-        public static void DeleteCustomer(Customer customer)
-        {
-            var verify = MessageBox.Show("Are you sure you want to delete this customer?", "Notice", MessageBoxButtons.YesNo);
-            if(verify == DialogResult.Yes)
-            {
-                Execute($"DELETE FROM customer WHERE customerId = {customer.CustomerID}"); 
-            }
-        }
-
-        public static void DeleteCustomer(int customerId)
-        {
-            var verify = MessageBox.Show("Are you sure you want to delete this customer?", "Notice", MessageBoxButtons.YesNo);
-            if (verify == DialogResult.Yes)
-            {
-                Execute($"DELETE FROM customer WHERE customerId = {customerId}");
-            }
-        }
-
         public static void DeleteAppointment(Appointment appointment)
         {
             throw new NotImplementedException();
         }
+        #endregion
 
         /// <summary>
         /// Queries database to see if any user match the user/pass combo
@@ -297,6 +377,18 @@ namespace Business_Scheduler.Data
             {
                 MessageBox.Show(ex.ToString(), "Error!");
             }
+        }
+
+        private static Customer BuildCustomer(string[] customerInfo)
+        {
+            List<string[]> addressInfo = QueryDatabase($"SELECT * FROM address WHERE addressId = {customerInfo[2]}");
+            List<string[]> cityInfo = QueryDatabase($"SELECT * FROM city WHERE cityId = {addressInfo[0][3]}");
+            List<string[]> countryInfo = QueryDatabase($"SELECT * FROM country WHERE countryId = {cityInfo[0][2]}");
+            Country country = new Country(Int32.Parse(countryInfo[0][0]), countryInfo[0][1], Convert.ToDateTime(countryInfo[0][2]), countryInfo[0][3], Convert.ToDateTime(countryInfo[0][4]), countryInfo[0][5]);
+            City city = new City(Int32.Parse(cityInfo[0][0]), cityInfo[0][1], country, Convert.ToDateTime(cityInfo[0][3]), cityInfo[0][4], Convert.ToDateTime(cityInfo[0][5]), cityInfo[0][6]);
+            Address address = new Address(Int32.Parse(addressInfo[0][0]), addressInfo[0][1], addressInfo[0][2], addressInfo[0][4], city, addressInfo[0][5], Convert.ToDateTime(addressInfo[0][6]), addressInfo[0][7], Convert.ToDateTime(addressInfo[0][8]), addressInfo[0][9]);
+            Customer customer = new Customer(Int32.Parse(customerInfo[0]), customerInfo[1], address, bool.Parse(customerInfo[3]) ? 1 : 0, Convert.ToDateTime(customerInfo[4]), customerInfo[5], Convert.ToDateTime(customerInfo[6]), customerInfo[7]);
+            return customer;
         }
     }
 }

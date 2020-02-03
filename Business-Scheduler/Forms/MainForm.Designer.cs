@@ -51,7 +51,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.NewCustomer_Button = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.UpdateCustomer_Button = new System.Windows.Forms.Button();
             this.DeleteCustomer_Button = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.Close_Button = new System.Windows.Forms.Button();
@@ -289,14 +289,15 @@
             this.NewCustomer_Button.UseVisualStyleBackColor = true;
             this.NewCustomer_Button.Click += new System.EventHandler(this.NewCustomer_Button_Click);
             // 
-            // button4
+            // UpdateCustomer_Button
             // 
-            this.button4.Location = new System.Drawing.Point(20, 310);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(356, 48);
-            this.button4.TabIndex = 6;
-            this.button4.Text = "Update Customer Information";
-            this.button4.UseVisualStyleBackColor = true;
+            this.UpdateCustomer_Button.Location = new System.Drawing.Point(20, 310);
+            this.UpdateCustomer_Button.Name = "UpdateCustomer_Button";
+            this.UpdateCustomer_Button.Size = new System.Drawing.Size(356, 48);
+            this.UpdateCustomer_Button.TabIndex = 6;
+            this.UpdateCustomer_Button.Text = "Update Customer Information";
+            this.UpdateCustomer_Button.UseVisualStyleBackColor = true;
+            this.UpdateCustomer_Button.Click += new System.EventHandler(this.UpdateCustomer_Button_Click);
             // 
             // DeleteCustomer_Button
             // 
@@ -335,7 +336,7 @@
             this.Controls.Add(this.Close_Button);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.DeleteCustomer_Button);
-            this.Controls.Add(this.button4);
+            this.Controls.Add(this.UpdateCustomer_Button);
             this.Controls.Add(this.NewCustomer_Button);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -379,7 +380,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button NewCustomer_Button;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button UpdateCustomer_Button;
         private System.Windows.Forms.Button DeleteCustomer_Button;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button Close_Button;

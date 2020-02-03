@@ -39,7 +39,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.Create_Button = new System.Windows.Forms.Button();
+            this.Update_Button = new System.Windows.Forms.Button();
             this.PhoneNumber_Box = new System.Windows.Forms.TextBox();
             this.Country_Box = new System.Windows.Forms.TextBox();
             this.City_Box = new System.Windows.Forms.TextBox();
@@ -48,7 +48,7 @@
             this.AddressOne_Box = new System.Windows.Forms.TextBox();
             this.Name_Box = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.Delete_Button = new System.Windows.Forms.Button();
             this.Search_Button = new System.Windows.Forms.Button();
             this.Search_Box = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
@@ -162,15 +162,16 @@
             this.label1.TabIndex = 28;
             this.label1.Text = "*Name";
             // 
-            // Create_Button
+            // Update_Button
             // 
-            this.Create_Button.Enabled = false;
-            this.Create_Button.Location = new System.Drawing.Point(33, 603);
-            this.Create_Button.Name = "Create_Button";
-            this.Create_Button.Size = new System.Drawing.Size(153, 50);
-            this.Create_Button.TabIndex = 27;
-            this.Create_Button.Text = "Update Customer";
-            this.Create_Button.UseVisualStyleBackColor = true;
+            this.Update_Button.Enabled = false;
+            this.Update_Button.Location = new System.Drawing.Point(36, 603);
+            this.Update_Button.Name = "Update_Button";
+            this.Update_Button.Size = new System.Drawing.Size(153, 50);
+            this.Update_Button.TabIndex = 27;
+            this.Update_Button.Text = "Update Customer";
+            this.Update_Button.UseVisualStyleBackColor = true;
+            this.Update_Button.Click += new System.EventHandler(this.Update_Button_Click);
             // 
             // PhoneNumber_Box
             // 
@@ -244,15 +245,16 @@
             this.panel1.Size = new System.Drawing.Size(400, 77);
             this.panel1.TabIndex = 19;
             // 
-            // button1
+            // Delete_Button
             // 
-            this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(217, 603);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(153, 50);
-            this.button1.TabIndex = 38;
-            this.button1.Text = "DELETE";
-            this.button1.UseVisualStyleBackColor = true;
+            this.Delete_Button.Enabled = false;
+            this.Delete_Button.Location = new System.Drawing.Point(217, 603);
+            this.Delete_Button.Name = "Delete_Button";
+            this.Delete_Button.Size = new System.Drawing.Size(153, 50);
+            this.Delete_Button.TabIndex = 38;
+            this.Delete_Button.Text = "DELETE";
+            this.Delete_Button.UseVisualStyleBackColor = true;
+            this.Delete_Button.Click += new System.EventHandler(this.Delete_Button_Click);
             // 
             // Search_Button
             // 
@@ -279,7 +281,7 @@
             this.ClientSize = new System.Drawing.Size(400, 671);
             this.Controls.Add(this.Search_Box);
             this.Controls.Add(this.Search_Button);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.Delete_Button);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.Disabled_Radio);
             this.Controls.Add(this.Active_Radio);
@@ -290,7 +292,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.Create_Button);
+            this.Controls.Add(this.Update_Button);
             this.Controls.Add(this.PhoneNumber_Box);
             this.Controls.Add(this.Country_Box);
             this.Controls.Add(this.City_Box);
@@ -321,7 +323,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button Create_Button;
+        private System.Windows.Forms.Button Update_Button;
         private System.Windows.Forms.TextBox PhoneNumber_Box;
         private System.Windows.Forms.TextBox Country_Box;
         private System.Windows.Forms.TextBox City_Box;
@@ -330,7 +332,7 @@
         private System.Windows.Forms.TextBox AddressOne_Box;
         private System.Windows.Forms.TextBox Name_Box;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button Delete_Button;
         private System.Windows.Forms.Button Search_Button;
         private System.Windows.Forms.TextBox Search_Box;
     }
