@@ -65,7 +65,6 @@ namespace Business_Scheduler.Data
                 appointments.Add(MakeAppointment(data[i]));
             }
             AllAppointments = appointments;
-
         }
 
         /// <summary>
@@ -86,6 +85,27 @@ namespace Business_Scheduler.Data
                 }
             }
             return valid;
+        }
+
+        public static void AlertAppointment()
+        {
+            IEnumerable<Appointment> AppointmentQuery =
+            from appointment in AllAppointments
+            where appointment.Start.Date == DateTime.Now.Date
+            && appointment.Start.TimeOfDay.Subtract(DateTime.Now.TimeOfDay) <= new TimeSpan(0, 0, 15, 0)
+            && appointment.Start.TimeOfDay.Subtract(DateTime.Now.TimeOfDay) > new TimeSpan(0, 0, 0, 0)
+            select appointment;
+
+            if(AppointmentQuery.Count() > 0)
+            {
+                foreach (Appointment appointment in AppointmentQuery)
+                {
+                    List<Customer> customer = DataManager.SearchForCustomer(appointment.CustomerID);
+                    MessageBox.Show($"{customer[0].CustomerName} has an appointment starting within 15 minutes." +
+                        $"\n Appointment Start Time: {appointment.Start.TimeOfDay.ToString()}" +
+                        $"\n Appointment End Time: {appointment.End.TimeOfDay.ToString()}", "Alert!");
+                }
+            }
         }
     }
 }

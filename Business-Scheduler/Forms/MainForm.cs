@@ -16,6 +16,7 @@ namespace Business_Scheduler.Forms
         public MainForm()
         {
             InitializeComponent();
+            AppointmentManager.AlertAppointment();
         }
 
         private void NewCustomer_Button_Click(object sender, EventArgs e)
