@@ -48,8 +48,21 @@ namespace Business_Scheduler.Forms
             {
                 if (MultipleUsers_Table.Rows[MultipleUsers_Table.CurrentCell.RowIndex].Cells[0].Value != null)
                 {
-                    EditDeleteCustomerForm.Results = DataManager.SearchForCustomer(Int32.Parse(MultipleUsers_Table.Rows[MultipleUsers_Table.CurrentCell.RowIndex].Cells[0].Value.ToString()));
-                    EditDeleteCustomerForm.Update(DataManager.SearchForCustomer(Int32.Parse(MultipleUsers_Table.Rows[MultipleUsers_Table.CurrentCell.RowIndex].Cells[0].Value.ToString()))[0]);
+                    List<Customer> customers = DataManager.SearchForCustomer(Int32.Parse(MultipleUsers_Table.Rows[MultipleUsers_Table.CurrentCell.RowIndex].Cells[0].Value.ToString()));
+                    FormCollection formCollection = Application.OpenForms;
+                    foreach (Form form in formCollection)
+                    {
+                        if (form.Name == "EditDeleteCustomerForm")
+                        {
+                            EditDeleteCustomerForm.Results = customers;
+                            EditDeleteCustomerForm.Update(customers[0]);
+                        }
+                        if(form.Name == "AppointmentForm")
+                        {
+                            AppointmentForm.Customers = customers;
+                            AppointmentForm.CustomerName.Text = customers[0].CustomerName;
+                        }
+                    }
                     Close();
                 }
                 else

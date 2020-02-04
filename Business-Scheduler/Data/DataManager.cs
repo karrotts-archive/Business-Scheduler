@@ -257,13 +257,12 @@ namespace Business_Scheduler.Data
 
         #region Appointments
         /// <summary>
-        /// Search for appointment by ID
+        /// Gets all appointments
         /// </summary>
-        /// <param name="id">ID of appointment</param>
         /// <returns></returns>
-        public static Appointment SearchForAppointment(int id)
+        public static List<string[]> AllAppointments()
         {
-            return null;
+            return QueryDatabase("SELECT * FROM appointment");
         }
 
         /// <summary>

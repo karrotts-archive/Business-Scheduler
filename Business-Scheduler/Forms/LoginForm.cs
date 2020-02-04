@@ -27,6 +27,7 @@ namespace Business_Scheduler.Forms
             Login_Button.Enabled = false;
             if(DataManager.LoginUser(Username_Box.Text, Password_Box.Text))
             {
+                AppointmentManager.GetAllAppointments();
                 new MainForm().Show();
                 Hide();
             }

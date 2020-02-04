@@ -95,6 +95,7 @@
             this.Search_Button.TabIndex = 3;
             this.Search_Button.Text = "Search";
             this.Search_Button.UseVisualStyleBackColor = true;
+            this.Search_Button.Click += new System.EventHandler(this.Search_Button_Click);
             // 
             // CustomerSearch_Label
             // 
@@ -121,12 +122,11 @@
             this.label2.Size = new System.Drawing.Size(35, 17);
             this.label2.TabIndex = 6;
             this.label2.Text = "Title";
-            this.label2.Click += new System.EventHandler(this.Label2_Click);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(23, 308);
+            this.label4.Location = new System.Drawing.Point(23, 312);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(79, 17);
             this.label4.TabIndex = 10;
@@ -134,7 +134,7 @@
             // 
             // Description_Box
             // 
-            this.Description_Box.Location = new System.Drawing.Point(23, 328);
+            this.Description_Box.Location = new System.Drawing.Point(23, 332);
             this.Description_Box.Name = "Description_Box";
             this.Description_Box.Size = new System.Drawing.Size(296, 112);
             this.Description_Box.TabIndex = 11;
@@ -179,9 +179,9 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(372, 173);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(40, 17);
+            this.label7.Size = new System.Drawing.Size(45, 17);
             this.label7.TabIndex = 17;
-            this.label7.Text = "Type";
+            this.label7.Text = "*Type";
             // 
             // Type_Box
             // 
@@ -221,18 +221,18 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(372, 334);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(135, 17);
+            this.label10.Size = new System.Drawing.Size(140, 17);
             this.label10.TabIndex = 23;
-            this.label10.Text = "Start Date and Time";
+            this.label10.Text = "*Start Date and Time";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(372, 402);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(130, 17);
+            this.label11.Size = new System.Drawing.Size(135, 17);
             this.label11.TabIndex = 25;
-            this.label11.Text = "End Date and Time";
+            this.label11.Text = "*End Date and Time";
             // 
             // Create_Button
             // 
@@ -242,6 +242,7 @@
             this.Create_Button.TabIndex = 26;
             this.Create_Button.Text = "Create";
             this.Create_Button.UseVisualStyleBackColor = true;
+            this.Create_Button.Click += new System.EventHandler(this.Create_Button_Click);
             // 
             // Cancel_Button
             // 
@@ -251,6 +252,7 @@
             this.Cancel_Button.TabIndex = 27;
             this.Cancel_Button.Text = "Cancel";
             this.Cancel_Button.UseVisualStyleBackColor = true;
+            this.Cancel_Button.Click += new System.EventHandler(this.Cancel_Button_Click);
             // 
             // StartDate_Time
             // 
@@ -283,9 +285,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(23, 173);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(109, 17);
+            this.label1.Size = new System.Drawing.Size(114, 17);
             this.label1.TabIndex = 32;
-            this.label1.Text = "Customer Name";
+            this.label1.Text = "*Customer Name";
             // 
             // CustomerName_Box
             // 
