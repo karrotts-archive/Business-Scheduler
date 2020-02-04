@@ -7,14 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Business_Scheduler.Data;
 
 namespace Business_Scheduler.Forms
 {
-    public partial class EditDeleteAppointmentForm : Form
+    public partial class EditAppointmentForm : Form
     {
-        public EditDeleteAppointmentForm()
+        public static Appointment EditAppointment;
+        public EditAppointmentForm(Appointment appointment)
         {
             InitializeComponent();
+            EditAppointment = appointment;
         }
 
         private void Label5_Click(object sender, EventArgs e)

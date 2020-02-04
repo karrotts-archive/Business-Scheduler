@@ -49,7 +49,7 @@
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NewAppointment_Button = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.View_Button = new System.Windows.Forms.Button();
             this.NewCustomer_Button = new System.Windows.Forms.Button();
             this.UpdateCustomer_Button = new System.Windows.Forms.Button();
             this.DeleteCustomer_Button = new System.Windows.Forms.Button();
@@ -271,14 +271,15 @@
             this.NewAppointment_Button.UseVisualStyleBackColor = true;
             this.NewAppointment_Button.Click += new System.EventHandler(this.NewAppointment_Button_Click);
             // 
-            // button2
+            // View_Button
             // 
-            this.button2.Location = new System.Drawing.Point(20, 158);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(356, 48);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "View All Appointments";
-            this.button2.UseVisualStyleBackColor = true;
+            this.View_Button.Location = new System.Drawing.Point(20, 158);
+            this.View_Button.Name = "View_Button";
+            this.View_Button.Size = new System.Drawing.Size(356, 48);
+            this.View_Button.TabIndex = 4;
+            this.View_Button.Text = "View All Appointments";
+            this.View_Button.UseVisualStyleBackColor = true;
+            this.View_Button.Click += new System.EventHandler(this.View_Button_Click);
             // 
             // NewCustomer_Button
             // 
@@ -339,7 +340,7 @@
             this.Controls.Add(this.DeleteCustomer_Button);
             this.Controls.Add(this.UpdateCustomer_Button);
             this.Controls.Add(this.NewCustomer_Button);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.View_Button);
             this.Controls.Add(this.NewAppointment_Button);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -379,7 +380,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.Button NewAppointment_Button;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button View_Button;
         private System.Windows.Forms.Button NewCustomer_Button;
         private System.Windows.Forms.Button UpdateCustomer_Button;
         private System.Windows.Forms.Button DeleteCustomer_Button;

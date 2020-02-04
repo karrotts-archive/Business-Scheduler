@@ -1,6 +1,6 @@
 ﻿namespace Business_Scheduler.Forms
 {
-    partial class EditDeleteAppointmentForm
+    partial class EditAppointmentForm
     {
         /// <summary>
         /// Required designer variable.

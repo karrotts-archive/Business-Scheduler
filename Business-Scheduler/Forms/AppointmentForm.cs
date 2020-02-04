@@ -117,6 +117,7 @@ namespace Business_Scheduler.Forms
                 DataManager.CreateNewAppointment(appointment);
                 AppointmentManager.AllAppointments.Add(appointment);
                 MessageBox.Show("Appointment successfully created!", "Success!");
+                AppointmentManager.GetAllAppointments();
                 AppointmentManager.PopulateTables();
                 Close();
             }

@@ -334,6 +334,9 @@ namespace Business_Scheduler.Data
                 try
                 {
                     Execute($"DELETE FROM appointment WHERE appointmentId = {appointment.AppointmentID}");
+                    AppointmentManager.AllAppointments.Remove(appointment);
+                    MainForm.MonthlyTable.Remove(appointment.AppointmentID);
+                    MainForm.WeeklyTable.Remove(appointment.AppointmentID);
                     MessageBox.Show("Appointment successfully deleted!");
                     return true;
                 }
