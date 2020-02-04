@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Business_Scheduler.Forms;
 
 namespace Business_Scheduler.Data
 {
@@ -104,6 +105,41 @@ namespace Business_Scheduler.Data
                     MessageBox.Show($"{customer[0].CustomerName} has an appointment starting within 15 minutes." +
                         $"\n Appointment Start Time: {appointment.Start.TimeOfDay.ToString()}" +
                         $"\n Appointment End Time: {appointment.End.TimeOfDay.ToString()}", "Alert!");
+                }
+            }
+        }
+        
+        public static void PopulateTables()
+        {
+            IEnumerable<Appointment> MonthlyQuery =
+            from appointment in AllAppointments
+            where appointment.Start.Date < DateTime.Now.AddMonths(1)
+            && appointment.Start.Date >= DateTime.Now.AddDays(-1)
+            select appointment;
+
+            IEnumerable<Appointment> WeeklyQuery =
+            from appointment in AllAppointments
+            where appointment.Start.Date < DateTime.Now.AddDays(7)
+            && appointment.Start.Date >= DateTime.Now.AddDays(-1)
+            select appointment;
+
+            foreach(Appointment appointment in MonthlyQuery)
+            {
+                if(MainForm.MonthlyTable.GetRowByID(appointment.AppointmentID) == null)
+                {
+                    Customer customer = CustomerManager.Customers.FirstOrDefault(c => c.CustomerID == appointment.CustomerID);
+                    string[] data = { appointment.AppointmentID.ToString(), appointment.Type, appointment.Start.ToString(), appointment.End.ToString(), customer.CustomerName };
+                    MainForm.MonthlyTable.Add(data);
+                }
+            }
+
+            foreach (Appointment appointment in WeeklyQuery)
+            {
+                if (MainForm.WeeklyTable.GetRowByID(appointment.AppointmentID) == null)
+                {
+                    Customer customer = CustomerManager.Customers.FirstOrDefault(c => c.CustomerID == appointment.CustomerID);
+                    string[] data = { appointment.AppointmentID.ToString(), appointment.Type, appointment.Start.ToString(), appointment.End.ToString(), customer.CustomerName };
+                    MainForm.WeeklyTable.Add(data);
                 }
             }
         }

@@ -54,7 +54,7 @@ namespace Business_Scheduler.Controllers
         }
 
         /// <summary>
-        /// Updates the table to show updated item information
+        /// Clears table and repopulates table with elements in table list
         /// </summary>
         public void Update()
         {
@@ -71,14 +71,14 @@ namespace Business_Scheduler.Controllers
         /// </summary>
         /// <param name="id">ID of item</param>
         /// <returns>DataGridViewRow with information of item</returns>
-        private string[] GetRowByID(int id)
+        public string[] GetRowByID(int id)
         {
             IEnumerable<string[]> filtered =
             from row in rows
             where Int32.Parse(row[0]) == id
             select row;
 
-            if (filtered != null)
+            if (filtered.Count<string[]>() > 0)
                 return filtered.First();
             else return null;
         }

@@ -26,6 +26,16 @@ namespace Business_Scheduler.Data
         public static bool CheckValidPhoneNumber(string number) => Regex.Match(number, @"^[1-9]\d{2}-\d{3}-\d{4}$").Success;
 
         #region Customer
+        public static List<Customer> AllCustomers()
+        {
+            List<Customer> customers = new List<Customer>();
+            List<string[]> data = QueryDatabase("SELECT * FROM customer");
+            for(int i = 0; i < data.Count; i++)
+            {
+                customers.Add(BuildCustomer(data[i]));   
+            }
+            return customers;
+        }
         /// <summary>
         /// Search customer by name
         /// </summary>
@@ -143,6 +153,10 @@ namespace Business_Scheduler.Data
                         $"'{ConvertDateTime(customer.Address.City.LastUpdate)}'," +
                         $"\"{customer.Address.City.LastUpdateBy}\")");
 
+                int customerID = Int32.Parse(QueryDatabase($"SELECT customerId FROM customer WHERE createDate = '{ConvertDateTime(customer.CreateDate)}'")[0][0]);
+                customer.CustomerID = customerID;
+                CustomerManager.Customers.Add(customer);
+
                 MessageBox.Show("New customer successfully created!", "Success!");
             }
             catch(Exception ex)
@@ -191,6 +205,7 @@ namespace Business_Scheduler.Data
                         $"lastUpdateBy = '{Username}'" +
                         $" WHERE countryId = '{customer.Address.City.Country.CountryID}'");
 
+                CustomerManager.UpdateCustomer(customer);
                 return true; //Update success!
             }
             catch (Exception ex)
@@ -212,6 +227,7 @@ namespace Business_Scheduler.Data
             {
                 try
                 {
+                    CustomerManager.Customers.Remove(customer);
                     Execute($"DELETE FROM appointment WHERE customerId = {customer.CustomerID}");
                     Execute($"DELETE FROM customer WHERE customerId = {customer.CustomerID}");
                     MessageBox.Show("Customer successfully deleted!");
@@ -227,32 +243,7 @@ namespace Business_Scheduler.Data
             return false;
         }
 
-        /// <summary>
-        /// Deletes customer from database
-        /// </summary>
-        /// <param name="customerId">Customers integer ID number</param>
-        /// <returns>True if successfully deleted</returns>
-        public static bool DeleteCustomer(int customerId)
-        {
-            var verify = MessageBox.Show("Are you sure you want to delete this customer?", "Notice", MessageBoxButtons.YesNo);
-            if (verify == DialogResult.Yes)
-            {
-                try
-                {
-                    Execute($"DELETE FROM appointment WHERE customerId = {customerId}");
-                    Execute($"DELETE FROM customer WHERE customerId = {customerId}");
-                    MessageBox.Show("Customer successfully deleted!");
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Error!");
-                    return false;
-                }
-            }
-            MessageBox.Show("Customer was not deleted!");
-            return false;
-        }
+
         #endregion
 
         #region Appointments

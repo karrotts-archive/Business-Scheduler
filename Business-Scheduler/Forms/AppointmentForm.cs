@@ -108,13 +108,16 @@ namespace Business_Scheduler.Forms
                 appointment.Location = Location_Box.Text;
                 appointment.Contact = Contact_Box.Text;
                 appointment.URL = URL_Box.Text;
+                appointment.Type = Type_Box.Text;
                 appointment.CreateDate = DateTime.Now;
+                appointment.CreatedBy = DataManager.Username;
                 appointment.LastUpdate = DateTime.Now;
                 appointment.LastUpdateBy = DataManager.Username;
 
                 DataManager.CreateNewAppointment(appointment);
                 AppointmentManager.AllAppointments.Add(appointment);
                 MessageBox.Show("Appointment successfully created!", "Success!");
+                AppointmentManager.PopulateTables();
                 Close();
             }
             catch (OutsideBusinessHoursException ex)

@@ -8,15 +8,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Business_Scheduler.Data;
+using Business_Scheduler.Controllers;
 
 namespace Business_Scheduler.Forms
 {
     public partial class MainForm : Form
     {
+        public static TableController MonthlyTable;
+        public static TableController WeeklyTable;
+
         public MainForm()
         {
             InitializeComponent();
+            MonthlyTable = new TableController(Month_Table);
+            WeeklyTable = new TableController(Week_Table);
             AppointmentManager.AlertAppointment();
+            AppointmentManager.PopulateTables();
         }
 
         private void NewCustomer_Button_Click(object sender, EventArgs e)
