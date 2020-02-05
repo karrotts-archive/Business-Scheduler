@@ -41,15 +41,23 @@ namespace Business_Scheduler.Controllers
         /// <param name="data">String array of information that needs updated</param>
         public void UpdateRow(string[] data)
         {
-            foreach (string[] row in rows)
+            try
             {
-                if (Int32.Parse(row[0]) == Int32.Parse(data[0]))
+                foreach (string[] row in rows)
                 {
-                    for (int i = 0; i < row.Length; ++i)
+                    if (Int32.Parse(row[0]) == Int32.Parse(data[0]))
                     {
-                        row[i] = data[i];
+                        for (int i = 0; i < row.Length; ++i)
+                        {
+                            row[i] = data[i];
+                        }
                     }
                 }
+                Update();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "TableController Error!");
             }
         }
 

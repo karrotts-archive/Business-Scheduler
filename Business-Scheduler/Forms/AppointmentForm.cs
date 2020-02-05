@@ -34,7 +34,6 @@ namespace Business_Scheduler.Forms
 
         private void Search_Button_Click(object sender, EventArgs e)
         {
-            //EnableInput(false)
             try
             {
                 int customerId = Int32.Parse(CustomerSearch_Box.Text);
@@ -55,10 +54,6 @@ namespace Business_Scheduler.Forms
                 {
                     CustomerName.Text = Customers[0].CustomerName;
                 }
-            }
-            else
-            {
-                //EnableInput(true);
             }
         }
 

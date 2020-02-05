@@ -35,7 +35,6 @@
             this.EndDate_Date = new System.Windows.Forms.DateTimePicker();
             this.StartDate_Time = new System.Windows.Forms.DateTimePicker();
             this.Update_Button = new System.Windows.Forms.Button();
-            this.Delete_Button = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.StartDate_Date = new System.Windows.Forms.DateTimePicker();
@@ -63,9 +62,9 @@
             this.Login_Label.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.Login_Label.Location = new System.Drawing.Point(11, 19);
             this.Login_Label.Name = "Login_Label";
-            this.Login_Label.Size = new System.Drawing.Size(240, 40);
+            this.Login_Label.Size = new System.Drawing.Size(380, 40);
             this.Login_Label.TabIndex = 1;
-            this.Login_Label.Text = "Edit / Delete";
+            this.Login_Label.Text = "Update Appointment";
             // 
             // label1
             // 
@@ -113,21 +112,13 @@
             // 
             // Update_Button
             // 
-            this.Update_Button.Location = new System.Drawing.Point(478, 477);
+            this.Update_Button.Location = new System.Drawing.Point(581, 479);
             this.Update_Button.Name = "Update_Button";
             this.Update_Button.Size = new System.Drawing.Size(87, 31);
             this.Update_Button.TabIndex = 53;
             this.Update_Button.Text = "Update";
             this.Update_Button.UseVisualStyleBackColor = true;
-            // 
-            // Delete_Button
-            // 
-            this.Delete_Button.Location = new System.Drawing.Point(581, 477);
-            this.Delete_Button.Name = "Delete_Button";
-            this.Delete_Button.Size = new System.Drawing.Size(87, 31);
-            this.Delete_Button.TabIndex = 52;
-            this.Delete_Button.Text = "DELETE";
-            this.Delete_Button.UseVisualStyleBackColor = true;
+            this.Update_Button.Click += new System.EventHandler(this.Update_Button_Click);
             // 
             // label11
             // 
@@ -214,7 +205,6 @@
             this.label5.Size = new System.Drawing.Size(62, 17);
             this.label5.TabIndex = 42;
             this.label5.Text = "Location";
-            this.label5.Click += new System.EventHandler(this.Label5_Click);
             // 
             // Location_Box
             // 
@@ -267,7 +257,7 @@
             this.panel1.Size = new System.Drawing.Size(798, 77);
             this.panel1.TabIndex = 33;
             // 
-            // EditDeleteAppointmentForm
+            // EditAppointmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -278,7 +268,6 @@
             this.Controls.Add(this.EndDate_Date);
             this.Controls.Add(this.StartDate_Time);
             this.Controls.Add(this.Update_Button);
-            this.Controls.Add(this.Delete_Button);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.StartDate_Date);
@@ -295,7 +284,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.Title_Box);
             this.Controls.Add(this.panel1);
-            this.Name = "EditDeleteAppointmentForm";
+            this.Name = "EditAppointmentForm";
             this.Text = "CSS - Edit Delete Appointment";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -313,7 +302,6 @@
         private System.Windows.Forms.DateTimePicker EndDate_Date;
         private System.Windows.Forms.DateTimePicker StartDate_Time;
         private System.Windows.Forms.Button Update_Button;
-        private System.Windows.Forms.Button Delete_Button;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.DateTimePicker StartDate_Date;

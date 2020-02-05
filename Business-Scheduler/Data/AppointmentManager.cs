@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Business_Scheduler.Forms;
 
 namespace Business_Scheduler.Data
@@ -88,8 +86,12 @@ namespace Business_Scheduler.Data
             return valid;
         }
 
+        /// <summary>
+        /// Searches through all appointments and finds any appointments within 15 minutes and displays an alert
+        /// </summary>
         public static void AlertAppointment()
         {
+            //Search for any appointments in 15 minutes
             IEnumerable<Appointment> AppointmentQuery =
             from appointment in AllAppointments
             where appointment.Start.Date == DateTime.Now.Date
@@ -97,6 +99,7 @@ namespace Business_Scheduler.Data
             && appointment.Start.TimeOfDay.Subtract(DateTime.Now.TimeOfDay) > new TimeSpan(0, 0, 0, 0)
             select appointment;
 
+            //Display all appointments within 15 minutes
             if(AppointmentQuery.Count() > 0)
             {
                 foreach (Appointment appointment in AppointmentQuery)
@@ -109,6 +112,9 @@ namespace Business_Scheduler.Data
             }
         }
         
+        /// <summary>
+        /// Populates MainForms weekly and monthly tables
+        /// </summary>
         public static void PopulateTables()
         {
             IEnumerable<Appointment> MonthlyQuery =
@@ -140,6 +146,41 @@ namespace Business_Scheduler.Data
                     Customer customer = CustomerManager.Customers.FirstOrDefault(c => c.CustomerID == appointment.CustomerID);
                     string[] data = { appointment.AppointmentID.ToString(), appointment.Type, appointment.Start.ToString(), appointment.End.ToString(), customer.CustomerName };
                     MainForm.WeeklyTable.Add(data);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Updates a specific appointment in the customer list
+        /// </summary>
+        /// <param name="appointment"></param>
+        public static void UpdateAppointment(Appointment appointment)
+        {
+            Customer customer = CustomerManager.Customers.FirstOrDefault(c => c.CustomerID == appointment.CustomerID);
+            
+            //Update list item
+            for (int i = 0; i < AllAppointments.Count; i++)
+            {
+                if (AllAppointments[i].AppointmentID == appointment.AppointmentID)
+                {
+                    AllAppointments[i] = appointment;
+                }
+            }
+
+            //Update all tables
+            FormCollection formCollection = Application.OpenForms;
+            foreach (Form form in formCollection)
+            {
+                if (form.Name == "MainForm")
+                {
+                    string[] data = { appointment.AppointmentID.ToString(), appointment.Type, appointment.Start.ToString(), appointment.End.ToString(), customer.CustomerName };
+                    MainForm.MonthlyTable.UpdateRow(data);
+                    MainForm.WeeklyTable.UpdateRow(data);
+                }
+                if (form.Name == "ViewAppointmentForm")
+                {
+                    string[] data = { appointment.AppointmentID.ToString(), appointment.Title, appointment.Type, appointment.Start.ToString(), appointment.End.ToString(), customer.CustomerName };
+                    ViewAppointmentForm.AppointmentTable.UpdateRow(data);
                 }
             }
         }
