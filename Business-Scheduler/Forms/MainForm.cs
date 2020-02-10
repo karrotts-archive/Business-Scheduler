@@ -60,5 +60,10 @@ namespace Business_Scheduler.Forms
         {
             new ViewAppointmentForm().Show();
         }
+
+        private void Reports_Button_Click(object sender, EventArgs e)
+        {
+            new ReportsForm().Show();
+        }
     }
 }

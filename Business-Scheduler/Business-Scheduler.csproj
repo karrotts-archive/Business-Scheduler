@@ -159,6 +159,9 @@
     <EmbeddedResource Include="Forms\MultipleUsersForm.resx">
       <DependentUpon>MultipleUsersForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ReportsForm.resx">
+      <DependentUpon>ReportsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserForm.resx">
       <DependentUpon>UserForm.cs</DependentUpon>
     </EmbeddedResource>
