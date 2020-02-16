@@ -72,19 +72,19 @@
             // 
             // ReportOne_Button
             // 
-            this.ReportOne_Button.Location = new System.Drawing.Point(57, 108);
+            this.ReportOne_Button.Location = new System.Drawing.Point(19, 108);
             this.ReportOne_Button.Name = "ReportOne_Button";
-            this.ReportOne_Button.Size = new System.Drawing.Size(202, 44);
+            this.ReportOne_Button.Size = new System.Drawing.Size(240, 44);
             this.ReportOne_Button.TabIndex = 4;
-            this.ReportOne_Button.Text = "Number of Appointments";
+            this.ReportOne_Button.Text = "Number of Appointments by Month";
             this.ReportOne_Button.UseVisualStyleBackColor = true;
             this.ReportOne_Button.Click += new System.EventHandler(this.ReportOne_Button_Click);
             // 
             // ReportTwo_Button
             // 
-            this.ReportTwo_Button.Location = new System.Drawing.Point(57, 175);
+            this.ReportTwo_Button.Location = new System.Drawing.Point(19, 175);
             this.ReportTwo_Button.Name = "ReportTwo_Button";
-            this.ReportTwo_Button.Size = new System.Drawing.Size(202, 44);
+            this.ReportTwo_Button.Size = new System.Drawing.Size(240, 44);
             this.ReportTwo_Button.TabIndex = 5;
             this.ReportTwo_Button.Text = "Consultant Schedules";
             this.ReportTwo_Button.UseVisualStyleBackColor = true;
@@ -92,9 +92,9 @@
             // 
             // ReportThree_Button
             // 
-            this.ReportThree_Button.Location = new System.Drawing.Point(57, 246);
+            this.ReportThree_Button.Location = new System.Drawing.Point(19, 246);
             this.ReportThree_Button.Name = "ReportThree_Button";
-            this.ReportThree_Button.Size = new System.Drawing.Size(202, 44);
+            this.ReportThree_Button.Size = new System.Drawing.Size(240, 44);
             this.ReportThree_Button.TabIndex = 6;
             this.ReportThree_Button.Text = "Number of Appointments for each Customer";
             this.ReportThree_Button.UseVisualStyleBackColor = true;

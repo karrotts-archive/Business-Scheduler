@@ -25,6 +25,9 @@ namespace Business_Scheduler.Data
         //Lambda expression to check if phone number is in the correct format
         public static bool CheckValidPhoneNumber(string number) => Regex.Match(number, @"^[1-9]\d{2}-\d{3}-\d{4}$").Success;
 
+        //Lambda to convert time from UTC to local
+        public static DateTime ConvertFromUTC(DateTime time) => TimeZoneInfo.ConvertTimeFromUtc(time, TimeZoneInfo.Local);
+
         #region Customer
         public static List<Customer> AllCustomers()
         {

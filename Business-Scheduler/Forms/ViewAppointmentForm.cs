@@ -58,9 +58,11 @@ namespace Business_Scheduler.Forms
             if (Appointments_Table.Rows[Appointments_Table.CurrentCell.RowIndex].Cells[0].Value != null)
             {
                 Appointment appointment = AppointmentManager.AllAppointments.First(a => a.AppointmentID == id);
-                DataManager.DeleteAppointment(appointment);
-                AppointmentManager.AllAppointments.Remove(appointment);
-                AppointmentTable.Remove(appointment.AppointmentID);
+                if(DataManager.DeleteAppointment(appointment))
+                {
+                    AppointmentManager.AllAppointments.Remove(appointment);
+                    AppointmentTable.Remove(appointment.AppointmentID);
+                }
             }
             else
             {
