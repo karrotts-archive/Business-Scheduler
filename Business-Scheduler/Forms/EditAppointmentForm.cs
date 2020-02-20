@@ -70,7 +70,7 @@ namespace Business_Scheduler.Forms
                 }
 
                 //build appointment
-                EditAppointment.UserID = DataManager.UserID;
+                EditAppointment.UserID = DataManager.CurrentUser.ID;
                 EditAppointment.Title = Title_Box.Text;
                 EditAppointment.Description = Description_Box.Text;
                 EditAppointment.Location = Location_Box.Text;
@@ -78,7 +78,7 @@ namespace Business_Scheduler.Forms
                 EditAppointment.URL = URL_Box.Text;
                 EditAppointment.Type = Type_Box.Text;
                 EditAppointment.LastUpdate = DateTime.Now;
-                EditAppointment.LastUpdateBy = DataManager.Username;
+                EditAppointment.LastUpdateBy = DataManager.CurrentUser.Username;
 
                 DataManager.UpdateAppointmentInfo(EditAppointment);
                 AppointmentManager.UpdateAppointment(EditAppointment);

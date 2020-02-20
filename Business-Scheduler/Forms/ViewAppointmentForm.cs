@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Business_Scheduler.Data;
-using Business_Scheduler.Exceptions;
 using Business_Scheduler.Controllers;
 
 namespace Business_Scheduler.Forms
@@ -20,6 +13,8 @@ namespace Business_Scheduler.Forms
         {
             InitializeComponent();
             AppointmentTable = new TableController(Appointments_Table);
+
+            //build appointment table
             for(int i = 0; i <  AppointmentManager.AllAppointments.Count; i++)
             {
                 Customer customer = CustomerManager.Customers.First(c => c.CustomerID == AppointmentManager.AllAppointments[i].CustomerID);
@@ -35,6 +30,7 @@ namespace Business_Scheduler.Forms
 
         private void Appointments_Table_SelectionChanged(object sender, EventArgs e)
         {
+            //enables controls only when an appointment is selected
             if (Appointments_Table.Rows[Appointments_Table.CurrentCell.RowIndex].Cells[0].Value != null)
             {
                 Update_Button.Enabled = true;

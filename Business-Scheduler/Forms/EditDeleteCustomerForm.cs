@@ -38,7 +38,7 @@ namespace Business_Scheduler.Forms
                 int customerId = Int32.Parse(Search_Box.Text);
                 Results = DataManager.SearchForCustomer(customerId);
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 Results = DataManager.SearchForCustomer(Search_Box.Text);
             }

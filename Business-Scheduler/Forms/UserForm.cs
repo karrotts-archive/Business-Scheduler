@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Business_Scheduler.Data;
 using Business_Scheduler.Exceptions;
@@ -63,10 +56,10 @@ namespace Business_Scheduler.Forms
 
                 int addressValue = Active_Radio.Checked ? 1 : 0;
 
-                Country country = new Country(Country_Box.Text, DateTime.Now, DataManager.Username, DateTime.Now, DataManager.Username);
-                City city = new City(City_Box.Text, country, DateTime.Now, DataManager.Username, DateTime.Now, DataManager.Username);
-                Address address = new Address(AddressOne_Box.Text, AddressTwo_Box.Text, PostalCode_Box.Text, city, PhoneNumber_Box.Text, DateTime.Now, DataManager.Username, DateTime.Now, DataManager.Username);
-                Customer customer = new Customer(Name_Box.Text, address, addressValue, DateTime.Now, DataManager.Username, DateTime.Now, DataManager.Username);
+                Country country = new Country(Country_Box.Text, DateTime.Now, DataManager.CurrentUser.Username, DateTime.Now, DataManager.CurrentUser.Username);
+                City city = new City(City_Box.Text, country, DateTime.Now, DataManager.CurrentUser.Username, DateTime.Now, DataManager.CurrentUser.Username);
+                Address address = new Address(AddressOne_Box.Text, AddressTwo_Box.Text, PostalCode_Box.Text, city, PhoneNumber_Box.Text, DateTime.Now, DataManager.CurrentUser.Username, DateTime.Now, DataManager.CurrentUser.Username);
+                Customer customer = new Customer(Name_Box.Text, address, addressValue, DateTime.Now, DataManager.CurrentUser.Username, DateTime.Now, DataManager.CurrentUser.Username);
                 DataManager.CreateNewCustomer(customer);
 
                 Close();

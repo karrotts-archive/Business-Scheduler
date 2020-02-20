@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MySql.Data;
 using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 using Business_Scheduler.Exceptions;
@@ -14,8 +10,15 @@ namespace Business_Scheduler.Data
 {
     static class DataManager
     {
-        public static int UserID;
-        public static string Username;
+        public static User CurrentUser; //Current Logged in user
+        public static List<User> AllUsers; //List of all users for reports form
+
+        //User struct for quickly storying user information
+        public struct User
+        {
+            public int ID;
+            public string Username;
+        }
 
         private static string ConnectionString = "Server=3.227.166.251;Database=U05HpJ;User ID=U05HpJ;Password=53688502876;convert zero datetime=True";
 
@@ -181,7 +184,7 @@ namespace Business_Scheduler.Data
                         $"customerName = '{customer.CustomerName}'," +
                         $" active = '{customer.Active}'," +
                         $" lastUpdate = '{ConvertDateTime(DateTime.Now.ToUniversalTime())}'," +
-                        $" lastUpdateBy = '{Username}'" +
+                        $" lastUpdateBy = '{CurrentUser.Username}'" +
                         $" WHERE customerId = '{customer.CustomerID}'");
 
                 //Update address table
@@ -191,21 +194,21 @@ namespace Business_Scheduler.Data
                         $" postalCode = '{customer.Address.PostalCode}'," +
                         $" phone = '{customer.Address.Phone}'," +
                         $" lastUpdate = '{ConvertDateTime(DateTime.Now.ToUniversalTime())}'," +
-                        $" lastUpdateBy = '{Username}'" +
+                        $" lastUpdateBy = '{CurrentUser.Username}'" +
                         $" WHERE addressId = '{customer.Address.AddressID}'");
 
                 //Update city table
                 Execute($"UPDATE city SET " +
                         $"city = '{customer.Address.City.CityName}'," +
                         $"lastUpdate = '{ConvertDateTime(DateTime.Now.ToUniversalTime())}'," +
-                        $"lastUpdateBy = '{Username}'" +
+                        $"lastUpdateBy = '{CurrentUser.Username}'" +
                         $" WHERE cityId = '{customer.Address.City.CityID}'");
 
                 //Update country table
                 Execute($"UPDATE country SET " +
                         $"country = '{customer.Address.City.Country.CountryName}'," +
                         $"lastUpdate = '{ConvertDateTime(DateTime.Now.ToUniversalTime())}'," +
-                        $"lastUpdateBy = '{Username}'" +
+                        $"lastUpdateBy = '{CurrentUser.Username}'" +
                         $" WHERE countryId = '{customer.Address.City.Country.CountryID}'");
 
                 CustomerManager.UpdateCustomer(customer);
@@ -260,7 +263,7 @@ namespace Business_Scheduler.Data
         }
 
         /// <summary>
-        /// 
+        /// Creates a new appointment in the database
         /// </summary>
         /// <param name="appointment"></param>
         public static void CreateNewAppointment(Appointment appointment)
@@ -291,7 +294,7 @@ namespace Business_Scheduler.Data
         }
 
         /// <summary>
-        /// 
+        /// Updates appointment with new information
         /// </summary>
         /// <param name="appointment"></param>
         /// <returns></returns>
@@ -325,7 +328,7 @@ namespace Business_Scheduler.Data
         }
 
         /// <summary>
-        /// 
+        /// Deletes an appointment from the database and removes the appointment from the tables
         /// </summary>
         /// <param name="appointment"></param>
         /// <returns></returns>
@@ -355,6 +358,29 @@ namespace Business_Scheduler.Data
         #endregion
 
         /// <summary>
+        /// Gathers all users from the database and stores it in the static AllUsers list
+        /// </summary>
+        public static void GetUsers()
+        {
+            try
+            {
+                AllUsers = new List<User>();
+                List<string[]> usersList = QueryDatabase("SELECT * FROM user");
+                foreach(string[] user in usersList)
+                {
+                    User temp = new User();
+                    temp.ID = Int32.Parse(user[0]);
+                    temp.Username = user[1];
+                    AllUsers.Add(temp);
+                }
+            }
+            catch(Exception)
+            {
+                MessageBox.Show("Unable to get all users!", "Error!");
+            }
+        }
+
+        /// <summary>
         /// Queries database to see if any user match the user/pass combo
         /// Sets the currently logged in user information if passes
         /// </summary>
@@ -369,11 +395,14 @@ namespace Business_Scheduler.Data
                 if (user != null && user.Count == 1)
                 {
                     //Set currently logged in user information for easy access
-                    UserID = Int32.Parse(user[0][0]);
-                    Username = user[0][1];
+                    CurrentUser.ID = Int32.Parse(user[0][0]);
+                    CurrentUser.Username = user[0][1];
+
+                    //Populate users list
+                    GetUsers();
 
                     //Log user login to log file
-                    LogManager.Log(Username + ":" + UserID + " has logged in at " + DateTime.Now.ToUniversalTime().ToString() + " UTC\n");
+                    LogManager.Log(CurrentUser.Username + ":" + CurrentUser.ID + " has logged in at " + DateTime.Now.ToUniversalTime().ToString() + " UTC\n");
 
                     return true;
                 }
@@ -436,6 +465,10 @@ namespace Business_Scheduler.Data
             }
         }
 
+        /// <summary>
+        /// Executes the provided SQL line 
+        /// </summary>
+        /// <param name="sql"></param>
         private static void Execute(string sql)
         {
             MySqlConnection connection = new MySqlConnection(ConnectionString);
@@ -453,6 +486,11 @@ namespace Business_Scheduler.Data
             }
         }
 
+        /// <summary>
+        /// Builds a customer from string array of customer info
+        /// </summary>
+        /// <param name="customerInfo"></param>
+        /// <returns></returns>
         private static Customer BuildCustomer(string[] customerInfo)
         {
             List<string[]> addressInfo = QueryDatabase($"SELECT * FROM address WHERE addressId = {customerInfo[2]}");

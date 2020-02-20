@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Business_Scheduler.Data;
 
@@ -46,7 +42,7 @@ namespace Business_Scheduler.Forms
                     IEnumerable<Appointment> QueryType =
                     from appointment in AppointmentManager.AllAppointments
                     where appointment.Type == type &&
-                    appointment.Start.Month == i
+                    DataManager.ConvertFromUTC(appointment.Start).Month == i
                     select appointment;
 
                     if (QueryType.ToList().Count > 0)
@@ -70,19 +66,25 @@ namespace Business_Scheduler.Forms
             Reports_Table.Columns.Add("startTime", "Start Time");
             Reports_Table.Columns.Add("endTime", "End Time");
 
-            //Get appointments for user
-            IEnumerable<Appointment> QuerySchedule =
-            from appointment in AppointmentManager.AllAppointments
-            where appointment.UserID == DataManager.UserID
-            select appointment;
-
-            foreach(Appointment appointment in QuerySchedule.ToList())
+            var DistinctUsers = AppointmentManager.AllAppointments.Select(x => x.UserID).Distinct();
+            
+            foreach(int user in DistinctUsers)
             {
-                string[] data = { DataManager.Username, CustomerManager.Customers.First(x => x.CustomerID ==  appointment.CustomerID).CustomerName, appointment.Start.ToString(), appointment.End.ToString() };
-                Reports_Table.Rows.Add(data);
+                //Get appointments for user
+                IEnumerable<Appointment> QuerySchedule =
+                from appointment in AppointmentManager.AllAppointments
+                where appointment.UserID == user
+                select appointment;
+
+                foreach (Appointment appointment in QuerySchedule.ToList())
+                {
+                    string[] data = { DataManager.AllUsers.FirstOrDefault(x => x.ID == appointment.UserID).Username,
+                                  CustomerManager.Customers.First(x => x.CustomerID == appointment.CustomerID).CustomerName,
+                                  DataManager.ConvertFromUTC(appointment.Start).ToString(),
+                                  DataManager.ConvertFromUTC(appointment.End).ToString() };
+                    Reports_Table.Rows.Add(data);
+                }
             }
-
-
         }
 
         private void ReportThree_Button_Click(object sender, EventArgs e)

@@ -39,7 +39,7 @@ namespace Business_Scheduler.Forms
                 int customerId = Int32.Parse(CustomerSearch_Box.Text);
                 Customers = DataManager.SearchForCustomer(customerId);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Customers = DataManager.SearchForCustomer(CustomerSearch_Box.Text);
             }
@@ -97,7 +97,7 @@ namespace Business_Scheduler.Forms
 
                 //build appointment
                 appointment.CustomerID = Customers[0].CustomerID;
-                appointment.UserID = DataManager.UserID;
+                appointment.UserID = DataManager.CurrentUser.ID;
                 appointment.Title = Title_Box.Text;
                 appointment.Description = Description_Box.Text;
                 appointment.Location = Location_Box.Text;
@@ -105,9 +105,9 @@ namespace Business_Scheduler.Forms
                 appointment.URL = URL_Box.Text;
                 appointment.Type = Type_Box.Text;
                 appointment.CreateDate = DateTime.Now;
-                appointment.CreatedBy = DataManager.Username;
+                appointment.CreatedBy = DataManager.CurrentUser.Username;
                 appointment.LastUpdate = DateTime.Now;
-                appointment.LastUpdateBy = DataManager.Username;
+                appointment.LastUpdateBy = DataManager.CurrentUser.Username;
 
                 DataManager.CreateNewAppointment(appointment);
                 AppointmentManager.AllAppointments.Add(appointment);
