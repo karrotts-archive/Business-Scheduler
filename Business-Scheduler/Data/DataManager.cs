@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 using Business_Scheduler.Exceptions;
@@ -32,6 +33,10 @@ namespace Business_Scheduler.Data
         public static DateTime ConvertFromUTC(DateTime time) => TimeZoneInfo.ConvertTimeFromUtc(DateTime.SpecifyKind(time, DateTimeKind.Utc), TimeZoneInfo.Local);
 
         #region Customer
+        /// <summary>
+        /// Gets all customers in database
+        /// </summary>
+        /// <returns></returns>
         public static List<Customer> AllCustomers()
         {
             List<Customer> customers = new List<Customer>();
@@ -42,6 +47,7 @@ namespace Business_Scheduler.Data
             }
             return customers;
         }
+
         /// <summary>
         /// Search customer by name
         /// </summary>
@@ -100,7 +106,7 @@ namespace Business_Scheduler.Data
         }
 
         /// <summary>
-        /// Creates a new customer an object with the customer object
+        /// Creates a new customer in database with the customer object
         /// </summary>
         /// <param name="customer"></param>
         public static void CreateNewCustomer(Customer customer)
@@ -233,9 +239,31 @@ namespace Business_Scheduler.Data
             {
                 try
                 {
+                    //remove from customer list
                     CustomerManager.Customers.Remove(customer);
+
+                    //remove all appointments with that customer
+                    foreach(Appointment appointment in AppointmentManager.AllAppointments)
+                    {
+                        if(appointment.CustomerID == customer.CustomerID)
+                        {
+                            MainForm.MonthlyTable.Remove(appointment.AppointmentID);
+                            MainForm.WeeklyTable.Remove(appointment.AppointmentID);
+                        }
+                    }
+
+                    //Remove the appointment from the appointment list
+                    AppointmentManager.AllAppointments.RemoveAll(x => x.CustomerID == customer.CustomerID);
+
+                    //delete all appointments with that customerID
                     Execute($"DELETE FROM appointment WHERE customerId = {customer.CustomerID}");
+
+                    //delete customer
                     Execute($"DELETE FROM customer WHERE customerId = {customer.CustomerID}");
+                    Execute($"DELETE FROM address WHERE addressId = {customer.Address.AddressID}");
+                    Execute($"DELETE FROM city WHERE cityId = {customer.Address.City.CityID}");
+                    Execute($"DELETE FROM country WHERE countryId = {customer.Address.City.Country.CountryID}");
+
                     MessageBox.Show("Customer successfully deleted!");
                     return true;
                 }
