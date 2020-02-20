@@ -26,7 +26,7 @@ namespace Business_Scheduler.Data
         public static bool CheckValidPhoneNumber(string number) => Regex.Match(number, @"^[1-9]\d{2}-\d{3}-\d{4}$").Success;
 
         //Lambda to convert time from UTC to local
-        public static DateTime ConvertFromUTC(DateTime time) => TimeZoneInfo.ConvertTimeFromUtc(time, TimeZoneInfo.Local);
+        public static DateTime ConvertFromUTC(DateTime time) => TimeZoneInfo.ConvertTimeFromUtc(DateTime.SpecifyKind(time, DateTimeKind.Utc), TimeZoneInfo.Local);
 
         #region Customer
         public static List<Customer> AllCustomers()
@@ -108,26 +108,26 @@ namespace Business_Scheduler.Data
                 //Build country entry
                 Execute($"INSERT INTO country (country, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (" +
                         $"\"{customer.Address.City.Country.CountryName}\"," +
-                        $"'{ConvertDateTime(customer.Address.City.Country.CreateDate)}'," +
+                        $"'{ConvertDateTime(customer.Address.City.Country.CreateDate.ToUniversalTime())}'," +
                         $"\"{customer.Address.City.Country.CreatedBy}\"," +
-                        $"'{ConvertDateTime(customer.Address.City.Country.LastUpdate)}'," +
+                        $"'{ConvertDateTime(customer.Address.City.Country.LastUpdate.ToUniversalTime())}'," +
                         $"\"{customer.Address.City.Country.LastUpdatedBy}\")");
 
                 //Update customer object with new countryID
-                int countryID = Int32.Parse(QueryDatabase($"SELECT countryId FROM country WHERE createDate = '{ConvertDateTime(customer.Address.City.Country.CreateDate)}'")[0][0]);
+                int countryID = Int32.Parse(QueryDatabase($"SELECT countryId FROM country WHERE createDate = '{ConvertDateTime(customer.Address.City.Country.CreateDate.ToUniversalTime())}'")[0][0]);
                 customer.Address.City.Country.CountryID = countryID;
 
                 //Build new city entry
                 Execute($"INSERT INTO city (city, countryId, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (" +
                         $"\"{customer.Address.City.CityName}\"," +
                         $"{customer.Address.City.Country.CountryID}," +
-                        $"'{ConvertDateTime(customer.Address.City.CreateDate)}'," +
+                        $"'{ConvertDateTime(customer.Address.City.CreateDate.ToUniversalTime())}'," +
                         $"\"{customer.Address.City.CreatedBy}\"," +
-                        $"'{ConvertDateTime(customer.Address.City.LastUpdate)}'," +
+                        $"'{ConvertDateTime(customer.Address.City.LastUpdate.ToUniversalTime())}'," +
                         $"\"{customer.Address.City.LastUpdateBy}\")");
 
                 //Update customer object with new cityID
-                int cityID = Int32.Parse(QueryDatabase($"SELECT cityId FROM city WHERE createDate = '{ConvertDateTime(customer.Address.City.CreateDate)}'")[0][0]);
+                int cityID = Int32.Parse(QueryDatabase($"SELECT cityId FROM city WHERE createDate = '{ConvertDateTime(customer.Address.City.CreateDate.ToUniversalTime())}'")[0][0]);
                 customer.Address.City.CityID = cityID;
 
                 //Build new address entry
@@ -137,13 +137,13 @@ namespace Business_Scheduler.Data
                         $"{customer.Address.City.CityID}," +
                         $"\"{customer.Address.PostalCode}\"," +
                         $"\"{customer.Address.Phone}\"," +
-                        $"'{ConvertDateTime(customer.Address.CreateDate)}'," +
+                        $"'{ConvertDateTime(customer.Address.CreateDate.ToUniversalTime())}'," +
                         $"\"{customer.Address.CreatedBy}\"," +
-                        $"'{ConvertDateTime(customer.Address.LastUpdate)}'," +
+                        $"'{ConvertDateTime(customer.Address.LastUpdate.ToUniversalTime())}'," +
                         $"\"{customer.Address.LastUpdateBy}\")");
 
                 //Update customer object with new addressID
-                int addressID = Int32.Parse(QueryDatabase($"SELECT addressId FROM address WHERE createDate = '{ConvertDateTime(customer.Address.CreateDate)}'")[0][0]);
+                int addressID = Int32.Parse(QueryDatabase($"SELECT addressId FROM address WHERE createDate = '{ConvertDateTime(customer.Address.CreateDate.ToUniversalTime())}'")[0][0]);
                 customer.Address.AddressID = addressID;
 
                 //Build the entire customer with forign keys
@@ -151,12 +151,12 @@ namespace Business_Scheduler.Data
                         $"\"{customer.CustomerName}\"," +
                         $"{customer.Address.AddressID}," +
                         $"{customer.Active}," +
-                        $"'{ConvertDateTime(customer.Address.City.CreateDate)}'," +
+                        $"'{ConvertDateTime(customer.Address.City.CreateDate.ToUniversalTime())}'," +
                         $"\"{customer.Address.City.CreatedBy}\"," +
-                        $"'{ConvertDateTime(customer.Address.City.LastUpdate)}'," +
+                        $"'{ConvertDateTime(customer.Address.City.LastUpdate.ToUniversalTime())}'," +
                         $"\"{customer.Address.City.LastUpdateBy}\")");
 
-                int customerID = Int32.Parse(QueryDatabase($"SELECT customerId FROM customer WHERE createDate = '{ConvertDateTime(customer.CreateDate)}'")[0][0]);
+                int customerID = Int32.Parse(QueryDatabase($"SELECT customerId FROM customer WHERE createDate = '{ConvertDateTime(customer.CreateDate.ToUniversalTime())}'")[0][0]);
                 customer.CustomerID = customerID;
                 CustomerManager.Customers.Add(customer);
 
@@ -180,7 +180,7 @@ namespace Business_Scheduler.Data
                 Execute($"UPDATE customer SET " +
                         $"customerName = '{customer.CustomerName}'," +
                         $" active = '{customer.Active}'," +
-                        $" lastUpdate = '{ConvertDateTime(DateTime.Now)}'," +
+                        $" lastUpdate = '{ConvertDateTime(DateTime.Now.ToUniversalTime())}'," +
                         $" lastUpdateBy = '{Username}'" +
                         $" WHERE customerId = '{customer.CustomerID}'");
 
@@ -190,21 +190,21 @@ namespace Business_Scheduler.Data
                         $" address2 = '{customer.Address.AddressLineTwo}'," +
                         $" postalCode = '{customer.Address.PostalCode}'," +
                         $" phone = '{customer.Address.Phone}'," +
-                        $" lastUpdate = '{ConvertDateTime(DateTime.Now)}'," +
+                        $" lastUpdate = '{ConvertDateTime(DateTime.Now.ToUniversalTime())}'," +
                         $" lastUpdateBy = '{Username}'" +
                         $" WHERE addressId = '{customer.Address.AddressID}'");
 
                 //Update city table
                 Execute($"UPDATE city SET " +
                         $"city = '{customer.Address.City.CityName}'," +
-                        $"lastUpdate = '{ConvertDateTime(DateTime.Now)}'," +
+                        $"lastUpdate = '{ConvertDateTime(DateTime.Now.ToUniversalTime())}'," +
                         $"lastUpdateBy = '{Username}'" +
                         $" WHERE cityId = '{customer.Address.City.CityID}'");
 
                 //Update country table
                 Execute($"UPDATE country SET " +
                         $"country = '{customer.Address.City.Country.CountryName}'," +
-                        $"lastUpdate = '{ConvertDateTime(DateTime.Now)}'," +
+                        $"lastUpdate = '{ConvertDateTime(DateTime.Now.ToUniversalTime())}'," +
                         $"lastUpdateBy = '{Username}'" +
                         $" WHERE countryId = '{customer.Address.City.Country.CountryID}'");
 
@@ -277,11 +277,11 @@ namespace Business_Scheduler.Data
                     $"'{appointment.Contact}'," +
                     $"'{appointment.Type}'," +
                     $"'{appointment.URL}'," +
-                    $"'{ConvertDateTime(appointment.Start)}'," +
-                    $"'{ConvertDateTime(appointment.End)}'," +
-                    $"'{ConvertDateTime(appointment.CreateDate)}'," +
+                    $"'{ConvertDateTime(appointment.Start.ToUniversalTime())}'," +
+                    $"'{ConvertDateTime(appointment.End.ToUniversalTime())}'," +
+                    $"'{ConvertDateTime(appointment.CreateDate.ToUniversalTime())}'," +
                     $"'{appointment.CreatedBy}'," +
-                    $"'{ConvertDateTime(appointment.LastUpdate)}'," +
+                    $"'{ConvertDateTime(appointment.LastUpdate.ToUniversalTime())}'," +
                     $"'{appointment.LastUpdateBy}')");
             }
             catch (Exception ex)
@@ -312,7 +312,7 @@ namespace Business_Scheduler.Data
                         $" end = '{ConvertDateTime(appointment.End)}'," +
                         $" createDate = '{ConvertDateTime(appointment.CreateDate)}'," +
                         $" createdBy = '{appointment.CreatedBy}'," +
-                        $" lastUpdate = '{ConvertDateTime(DateTime.Now)}'," +
+                        $" lastUpdate = '{ConvertDateTime(DateTime.Now.ToUniversalTime())}'," +
                         $" lastUpdateBy = '{appointment.LastUpdateBy}'" +
                         $" WHERE appointmentId = {appointment.AppointmentID}");
                 return true; //Update success!
@@ -373,7 +373,7 @@ namespace Business_Scheduler.Data
                     Username = user[0][1];
 
                     //Log user login to log file
-                    LogManager.Log(Username + ":" + UserID + " has logged in at " + DateTime.Now.ToString() + "\n");
+                    LogManager.Log(Username + ":" + UserID + " has logged in at " + DateTime.Now.ToUniversalTime().ToString() + " UTC\n");
 
                     return true;
                 }

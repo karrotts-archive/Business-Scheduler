@@ -78,7 +78,7 @@ namespace Business_Scheduler.Data
             {
                 for (int i = 0; i < AllAppointments.Count; i++)
                 {
-                    valid = appointment.Start >= AllAppointments[i].End || appointment.End <= AllAppointments[i].Start ? false : true;
+                    valid = appointment.Start.ToUniversalTime() >= AllAppointments[i].End || appointment.End.ToUniversalTime() <= AllAppointments[i].Start ? false : true;
                     if (valid)
                         break;
                 }
@@ -95,8 +95,8 @@ namespace Business_Scheduler.Data
             IEnumerable<Appointment> AppointmentQuery =
             from appointment in AllAppointments
             where appointment.Start.Date == DateTime.Now.Date
-            && appointment.Start.TimeOfDay.Subtract(DateTime.Now.TimeOfDay) <= new TimeSpan(0, 0, 15, 0)
-            && appointment.Start.TimeOfDay.Subtract(DateTime.Now.TimeOfDay) > new TimeSpan(0, 0, 0, 0)
+            && appointment.Start.TimeOfDay.Subtract(DateTime.Now.ToUniversalTime().TimeOfDay) <= new TimeSpan(0, 0, 15, 0)
+            && appointment.Start.TimeOfDay.Subtract(DateTime.Now.ToUniversalTime().TimeOfDay) > new TimeSpan(0, 0, 0, 0)
             select appointment;
 
             //Display all appointments within 15 minutes
@@ -106,8 +106,8 @@ namespace Business_Scheduler.Data
                 {
                     List<Customer> customer = DataManager.SearchForCustomer(appointment.CustomerID);
                     MessageBox.Show($"{customer[0].CustomerName} has an appointment starting within 15 minutes." +
-                        $"\n Appointment Start Time: {appointment.Start.TimeOfDay.ToString()}" +
-                        $"\n Appointment End Time: {appointment.End.TimeOfDay.ToString()}", "Alert!");
+                        $"\n Appointment Start Time: {DataManager.ConvertFromUTC(appointment.Start).TimeOfDay.ToString()}" +
+                        $"\n Appointment End Time: {DataManager.ConvertFromUTC(appointment.End).TimeOfDay.ToString()}", "Alert!");
                 }
             }
         }
@@ -119,14 +119,14 @@ namespace Business_Scheduler.Data
         {
             IEnumerable<Appointment> MonthlyQuery =
             from appointment in AllAppointments
-            where appointment.Start.Date < DateTime.Now.AddMonths(1)
-            && appointment.Start.Date >= DateTime.Now.AddDays(-1)
+            where DataManager.ConvertFromUTC(appointment.Start.Date) < DateTime.Now.AddMonths(1)
+            && DataManager.ConvertFromUTC(appointment.Start.Date) >= DateTime.Now.AddDays(-1)
             select appointment;
 
             IEnumerable<Appointment> WeeklyQuery =
             from appointment in AllAppointments
-            where appointment.Start.Date < DateTime.Now.AddDays(7)
-            && appointment.Start.Date >= DateTime.Now.AddDays(-1)
+            where DataManager.ConvertFromUTC(appointment.Start.Date) < DateTime.Now.AddDays(7)
+            && DataManager.ConvertFromUTC(appointment.Start.Date) >= DateTime.Now.AddDays(-1)
             select appointment;
 
             foreach(Appointment appointment in MonthlyQuery)
@@ -134,7 +134,7 @@ namespace Business_Scheduler.Data
                 if(MainForm.MonthlyTable.GetRowByID(appointment.AppointmentID) == null)
                 {
                     Customer customer = CustomerManager.Customers.FirstOrDefault(c => c.CustomerID == appointment.CustomerID);
-                    string[] data = { appointment.AppointmentID.ToString(), appointment.Type, appointment.Start.ToString(), appointment.End.ToString(), customer.CustomerName };
+                    string[] data = { appointment.AppointmentID.ToString(), appointment.Type, DataManager.ConvertFromUTC(appointment.Start).ToString(), DataManager.ConvertFromUTC(appointment.End).ToString(), customer.CustomerName };
                     MainForm.MonthlyTable.Add(data);
                 }
             }
@@ -144,7 +144,7 @@ namespace Business_Scheduler.Data
                 if (MainForm.WeeklyTable.GetRowByID(appointment.AppointmentID) == null)
                 {
                     Customer customer = CustomerManager.Customers.FirstOrDefault(c => c.CustomerID == appointment.CustomerID);
-                    string[] data = { appointment.AppointmentID.ToString(), appointment.Type, appointment.Start.ToString(), appointment.End.ToString(), customer.CustomerName };
+                    string[] data = { appointment.AppointmentID.ToString(), appointment.Type, DataManager.ConvertFromUTC(appointment.Start).ToString(), DataManager.ConvertFromUTC(appointment.End).ToString(), customer.CustomerName };
                     MainForm.WeeklyTable.Add(data);
                 }
             }
@@ -173,13 +173,13 @@ namespace Business_Scheduler.Data
             {
                 if (form.Name == "MainForm")
                 {
-                    string[] data = { appointment.AppointmentID.ToString(), appointment.Type, appointment.Start.ToString(), appointment.End.ToString(), customer.CustomerName };
+                    string[] data = { appointment.AppointmentID.ToString(), appointment.Type, DataManager.ConvertFromUTC(appointment.Start).ToString(), DataManager.ConvertFromUTC(appointment.End).ToString(), customer.CustomerName };
                     MainForm.MonthlyTable.UpdateRow(data);
                     MainForm.WeeklyTable.UpdateRow(data);
                 }
                 if (form.Name == "ViewAppointmentForm")
                 {
-                    string[] data = { appointment.AppointmentID.ToString(), appointment.Title, appointment.Type, appointment.Start.ToString(), appointment.End.ToString(), customer.CustomerName };
+                    string[] data = { appointment.AppointmentID.ToString(), appointment.Title, appointment.Type, DataManager.ConvertFromUTC(appointment.Start).ToString(), DataManager.ConvertFromUTC(appointment.End).ToString(), customer.CustomerName };
                     ViewAppointmentForm.AppointmentTable.UpdateRow(data);
                 }
             }

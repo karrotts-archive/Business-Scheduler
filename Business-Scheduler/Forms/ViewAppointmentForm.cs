@@ -26,8 +26,8 @@ namespace Business_Scheduler.Forms
                 string[] data = {AppointmentManager.AllAppointments[i].AppointmentID.ToString(),
                                  AppointmentManager.AllAppointments[i].Title,
                                  AppointmentManager.AllAppointments[i].Type,
-                                 AppointmentManager.AllAppointments[i].Start.ToString(),
-                                 AppointmentManager.AllAppointments[i].End.ToString(),
+                                 DataManager.ConvertFromUTC(AppointmentManager.AllAppointments[i].Start).ToString(),
+                                 DataManager.ConvertFromUTC(AppointmentManager.AllAppointments[i].End).ToString(),
                                  customer.CustomerName};
                 AppointmentTable.Add(data);
             }
