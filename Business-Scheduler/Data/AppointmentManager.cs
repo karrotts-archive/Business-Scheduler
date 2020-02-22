@@ -79,6 +79,13 @@ namespace Business_Scheduler.Data
                 for (int i = 0; i < AllAppointments.Count; i++)
                 {
                     valid = appointment.Start.ToUniversalTime() >= AllAppointments[i].End || appointment.End.ToUniversalTime() <= AllAppointments[i].Start ? false : true;
+
+                    //ignore appointments with the same ID as itself to prevent it from detecting itself as an overlap
+                    if(appointment.AppointmentID == AllAppointments[i].AppointmentID)
+                    {
+                        valid = false;
+                    }
+
                     if (valid)
                         break;
                 }

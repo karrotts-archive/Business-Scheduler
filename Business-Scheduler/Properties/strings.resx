@@ -120,6 +120,9 @@
   <data name="Company_Name" xml:space="preserve">
     <value>Consulting Scheduler</value>
   </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error!</value>
+  </data>
   <data name="Invalid_Credentials" xml:space="preserve">
     <value>Credentials Could Not Be Verified! Please Try Again!</value>
   </data>

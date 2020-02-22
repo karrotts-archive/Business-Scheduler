@@ -1,11 +1,10 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Collections.Generic;
-using System.Linq;
 using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 using Business_Scheduler.Exceptions;
 using Business_Scheduler.Forms;
-using System.Text.RegularExpressions;
 
 namespace Business_Scheduler.Data
 {
@@ -437,9 +436,9 @@ namespace Business_Scheduler.Data
 
                 throw new IncorrectLoginException();
             }
-            catch (IncorrectLoginException ex)
+            catch (IncorrectLoginException)
             {
-                MessageBox.Show(ex.Message, "Incorrect Login!");
+                MessageBox.Show(Properties.strings.Invalid_Credentials, Properties.strings.Error);
                 return false;
             }
             catch (Exception ex)

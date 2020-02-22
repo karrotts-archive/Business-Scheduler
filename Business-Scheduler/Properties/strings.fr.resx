@@ -120,6 +120,9 @@
   <data name="Company_Name" xml:space="preserve">
     <value>Planificateur de planification</value>
   </data>
+  <data name="Error" xml:space="preserve">
+    <value>Erreur!</value>
+  </data>
   <data name="Invalid_Credentials" xml:space="preserve">
     <value>Les informations d'identification n'ont pas pu être vérifiées!</value>
   </data>

@@ -70,6 +70,15 @@ namespace Business_Scheduler.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error!.
+        /// </summary>
+        internal static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Credentials Could Not Be Verified! Please Try Again!.
         /// </summary>
         internal static string Invalid_Credentials {

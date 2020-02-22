@@ -28,7 +28,6 @@ namespace Business_Scheduler.Forms
 
         private void Update_Button_Click(object sender, EventArgs e)
         {
-            Appointment appointment = new Appointment();
             try
             {
                 //build datetimes
@@ -49,15 +48,15 @@ namespace Business_Scheduler.Forms
                 }
 
                 //Subtract a bunch of years so it wont detect itself as an overlap appointment
-                EditAppointment.Start.AddYears(-1000);
-                EditAppointment.End.AddYears(-1000);
+                //EditAppointment.Start.AddYears(-1000);
+                //EditAppointment.End.AddYears(-1000);
                 AppointmentManager.UpdateAppointment(EditAppointment);
 
                 EditAppointment.Start = start.ToUniversalTime();
                 EditAppointment.End = end.ToUniversalTime();
 
                 //check overlap
-                if (AppointmentManager.CheckOverlappingAppointments(appointment))
+                if (AppointmentManager.CheckOverlappingAppointments(EditAppointment))
                 {
                     throw new OverlapAppointmentException("Unable to create appointment! Appointment overlaps with another appointment!");
                 }
